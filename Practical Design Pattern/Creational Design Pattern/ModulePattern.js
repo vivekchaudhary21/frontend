@@ -32,8 +32,8 @@ var task2 = new TaskClass('Car wash');
 /************************* The Module pattern ************************/
 
 var repo = function () {
-  const db = [];
-  let id = 1;
+  var db = [];
+  var id = 1;
 
   var getFromDB = function (id) {
     return db.filter((data) => data.id === id);
