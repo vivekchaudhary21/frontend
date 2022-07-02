@@ -57,8 +57,8 @@ var repo = function () {
   };
 };
 
-const db = repo();
+var db = repo();
 db.saveInDB(task1);
 
-const dbTask1 = db.getFromDB(1);
+var dbTask1 = db.getFromDB(1);
 console.log(dbTask1);
