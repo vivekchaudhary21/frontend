@@ -1,19 +1,24 @@
 Practical Design Pattern
 
-1. Creational Design Patterns
+1. Creational Design Pattern                                            
+        
    a. Constructor Pattern
    b. Module Pattern
    c. Factory Pattern
    c. Singleton Pattern
    e. Builder Pattern
+   
 2. Structural Design Pattern
+
    a. Decorator Pattern
    b. Facade Pattern
    c. Flyweight Pattern
    d. Composite Pattern
    e. Bridge Pattern
    f. Adapter Pattern
+   
 3. Behavioral Design Pattern
+
    a. Observer Pattern
    b. Mediator Pattern
    c. Command Pattern
