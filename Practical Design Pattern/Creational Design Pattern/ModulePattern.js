@@ -10,6 +10,39 @@
  * ECMAScript Harmony modules
  */
 
+/************************** Object literal ***************************/
+
+/**
+ * In object literal notation, an object is described as a set of comma-separated
+ * name/value pairs enclosed in curly braces ({}).
+ */
+
+var myModule = {
+  myProperty: 'someValue',
+  myConfig: {
+    useCaching: true,
+    language: 'en',
+  },
+  myMethod: function (newConfig) {
+    if (typeof newConfig === 'object') {
+      this.config = newConfig;
+      console.log(this.config.language);
+    }
+  },
+};
+
+myModule.myMethod({
+  language: 'fr',
+  useCaching: false,
+});
+
+/************************* The Module pattern ************************/
+
+/**
+ * The Module pattern was originally defined as a way to provide both private and public
+ * encapsulation for classes in conventional software engineering.
+ */
+
 class TaskClass {
   constructor(name) {
     this.name = name;
@@ -29,8 +62,6 @@ class TaskClass {
 var task1 = new TaskClass('Laundry');
 var task2 = new TaskClass('Car wash');
 
-/************************* The Module pattern ************************/
-
 var repo = function () {
   var db = [];
   var id = 1;
@@ -46,14 +77,9 @@ var repo = function () {
     });
   };
 
-  var getDB = function () {
-    return db;
-  };
-
   return {
     getFromDB,
     saveInDB,
-    getDB,
   };
 };
 
