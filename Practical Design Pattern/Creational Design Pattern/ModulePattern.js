@@ -35,19 +35,25 @@ var repo = function () {
   const db = [];
   let id = 1;
 
+  var getFromDB = function (id) {
+    return db.filter((data) => data.id === id);
+  };
+
+  var saveInDB = function (value) {
+    db.push({
+      id: id++,
+      ...value,
+    });
+  };
+
+  var getDB = function () {
+    return db;
+  };
+
   return {
-    getFromDB: function (id) {
-      return db.filter((data) => data.id === id);
-    },
-    saveInDB: function (value) {
-      db.push({
-        id: id++,
-        ...value,
-      });
-    },
-    getDB: function () {
-      return db;
-    },
+    getFromDB,
+    saveInDB,
+    getDB,
   };
 };
 
