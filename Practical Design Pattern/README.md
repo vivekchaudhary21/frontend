@@ -33,3 +33,11 @@ Practical Design Pattern
    l. Template Pattern
    m. Visitor Pattern
    n. Null Object
+   
+4. Solid Desigm Principles
+
+   a. Single Responsibility
+   b. Open Closed
+   c. Liskov Substitution
+   d. Interface Segregation
+   e. Dependency Inversion
