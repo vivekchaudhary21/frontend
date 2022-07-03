@@ -1,6 +1,9 @@
 Practical Design Pattern
 
 1. Creational Design Pattern
+
+   Concerned with the way of creating objects.
+   
    a. Constructor Pattern
    b. Module Pattern
    c. Factory Pattern
@@ -19,6 +22,8 @@ Practical Design Pattern
    f. Adapter Pattern
 
 3. Behavioral Design Pattern
+
+   Concerned with the interaction and responsibility of objects.
 
    a. Observer Pattern
    b. Mediator Pattern
