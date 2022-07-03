@@ -1,13 +1,12 @@
 Practical Design Pattern
 
-1. Creational Design Pattern                                            
-        
+1. Creational Design Pattern
    a. Constructor Pattern
    b. Module Pattern
    c. Factory Pattern
    c. Singleton Pattern
    e. Builder Pattern
-   
+
 2. Structural Design Pattern
 
    a. Decorator Pattern
@@ -16,7 +15,7 @@ Practical Design Pattern
    d. Composite Pattern
    e. Bridge Pattern
    f. Adapter Pattern
-   
+
 3. Behavioral Design Pattern
 
    a. Observer Pattern
@@ -33,8 +32,8 @@ Practical Design Pattern
    l. Template Pattern
    m. Visitor Pattern
    n. Null Object
-   
-4. Solid Desigm Principles
+
+4. Solid Design Principles
 
    a. Single Responsibility
    b. Open Closed

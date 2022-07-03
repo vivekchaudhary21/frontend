@@ -37,5 +37,3 @@ const ul = new HTMLBuilder('ul');
 for (let word of words) {
   ul.addChild('li', word);
 }
-
-console.log(ul.toString());
