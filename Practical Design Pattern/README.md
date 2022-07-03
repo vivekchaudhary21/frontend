@@ -8,6 +8,7 @@ Practical Design Pattern
    e. Builder Pattern
 
 2. Structural Design Pattern
+
    Concerned with how objects are made up and simplify relationships between objects.
 
    a. Decorator Pattern
