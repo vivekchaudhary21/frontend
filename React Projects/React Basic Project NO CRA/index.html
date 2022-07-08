@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>React Basic Project Without CRA</title>
+  </head>
+  <body>
+    <div id="header">Header</div>
+    <div id="root"></div>
+    <div id="footer">Footer</div>
+  </body>
+  <script type="text/babel">
+    const Element = () => {
+      return <h1>Component made using React</h1>;
+    };
+    ReactDOM.render(<Element />, document.querySelector('#root'));
+    // Without Babel
+    // const Element = () => {
+    //   return React.createElement('h1', null, 'Component made using React');
+    // };
+    // ReactDOM.render(
+    //   React.createElement(Element),
+    //   document.querySelector('#root')
+    // );
+  </script>
+</html>
