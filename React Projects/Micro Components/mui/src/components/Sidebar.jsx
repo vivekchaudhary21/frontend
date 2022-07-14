@@ -17,7 +17,7 @@ export const Sidebar = () => {
         },
       }}
     >
-      Sidebar
+      Sidebar !
     </MainBox>
   );
 };
