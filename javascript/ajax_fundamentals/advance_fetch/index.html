@@ -1,0 +1,67 @@
+<html>
+  <style>
+    body {
+      background-color: #ffcc00;
+      font-family: sans-serif;
+    }
+    h1 {
+      text-align: center;
+      padding-top: 140px;
+      font-size: 60px;
+      margin: -15px;
+    }
+    p {
+      text-align: center;
+      color: #907400;
+    }
+    p#btn {
+      cursor: pointer;
+    }
+    img {
+      margin: auto;
+      display: block;
+    }
+  </style>
+  <body>
+    <h1 id="iptext">This will be replaced with your public IP address</h1>
+    <br />
+    <p>( This is your IP address ... probably )</p>
+    <p id="btn">Show Image</p>
+    <img />
+    <script>
+      // ************************ FETCHING THE IP ADDRESS
+      // define URL
+      let url = 'http://worldtimeapi.org/api/timezone/Europe/Berlin';
+
+      // try complete the rest on your own
+
+      let reqForIPAddress = new Request(url);
+
+      fetch(reqForIPAddress)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          document.querySelector('#iptext').textContent = data.client_ip;
+        });
+
+      document.querySelector('#btn').addEventListener('click', function () {
+        fetch('./ajax.png', {
+          headers: {
+            Accept: 'image/png',
+          },
+        })
+          .then((res) => {
+            return res.blob();
+          })
+          .then((image) => {
+            const imageURL = URL.createObjectURL(image);
+            const img = document.querySelector('img');
+            img.src = imageURL;
+            img.style.height = '200px';
+          });
+      });
+    </script>
+  </body>
+</html>
