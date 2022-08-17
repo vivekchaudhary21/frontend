@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic HTML Tags</title>
+  </head>
+  <body>
+    <h1>Basic HTML Tags</h1>
+
+    <form name="my-form" action="#">
+      <label for="region" title="State or territory">Region</label>
+
+      <select name="region" id="region">
+        <optgroup label="States">
+          <option value="state1">state1</option>
+          <option value="state2">state2</option>
+          <option value="state3">state3</option>
+        </optgroup>
+        <optgroup label="Territories">
+          <option value="territory1">territory1</option>
+          <option value="territory2">territory2</option>
+          <option value="territory3">territory3</option>
+        </optgroup>
+      </select>
+
+      <p>
+        <label for="city">City</label>
+        <input name="city" id="city" list="cities" />
+      </p>
+
+      <button type="submit">Sumbit form</button>
+    </form>
+
+    <datalist id="cities">
+      <option value="city1" />
+      <option value="city2" />
+      <option value="city3" />
+      <option value="munich" />
+    </datalist>
+  </body>
+</html>

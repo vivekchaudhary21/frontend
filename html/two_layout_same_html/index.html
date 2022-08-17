@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rows vs Cards</title>
+    <style>
+      html {
+        font-size: 10px;
+        line-height: 1.7;
+        font-weight: 300;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+
+      button {
+        font-size: 2rem;
+        padding: 0.5rem 2rem;
+        background-color: cornflowerblue;
+        color: white;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        outline: none;
+      }
+
+      /**
+        CARDS
+        **/
+
+      .cards {
+        margin: 0 auto;
+        max-width: 1200px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(200px, 1fr));
+        grid-template-rows: 300px, 300px;
+        grid-gap: 4rem;
+      }
+
+      .cards .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        box-shadow: 2px 2px 4px hsla(0deg, 0%, 0%, 0.32);
+        background-color: #eef;
+        /* border: 1px solid #999; */
+        text-align: center;
+      }
+
+      .cards .title {
+        flex-basis: 50%;
+        color: white;
+        background-color: cornflowerblue;
+        padding: 1rem;
+        font-size: 2rem;
+      }
+
+      .cards .author {
+        flex-basis: 25%;
+        color: cornflowerblue;
+        padding: 0.5rem 1rem;
+        font-size: 1.5rem;
+      }
+
+      .cards .year {
+        flex-basis: 25%;
+        color: #555;
+        padding: 0.5rem 1rem;
+        font-size: 1.5rem;
+      }
+
+      /**
+        ROWS
+        **/
+
+      .rows {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+      }
+
+      .rows .item {
+        flex-basis: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .rows .item:nth-child(even) {
+        background-color: #eef;
+      }
+
+      .rows .title {
+        flex-basis: 50%;
+        font-size: 1.8rem;
+        color: cornflowerblue;
+        padding: 0.25rem 1rem;
+      }
+
+      .rows .author {
+        flex-basis: 25%;
+        font-size: 1.6rem;
+        color: #555;
+        padding: 0.25rem 1rem;
+      }
+
+      .rows .year {
+        flex-basis: 25%;
+        font-size: 1.6rem;
+        color: #555;
+        padding: 0.25rem 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <p><button id="btnToggle">Toggle Cards - Rows</button></p>
+    <main class="cards">
+      <section class="item">
+        <span class="title">Artemis</span>
+        <span class="author">Andy Weir</span>
+        <span class="year">2017</span>
+      </section>
+      <section class="item">
+        <span class="title">Dune</span>
+        <span class="author">Frank Herbert</span>
+        <span class="year">1965</span>
+      </section>
+      <section class="item">
+        <span class="title">Hyperion</span>
+        <span class="author">Dan Simmons</span>
+        <span class="year">1989</span>
+      </section>
+      <section class="item">
+        <span class="title">Ender's Game</span>
+        <span class="author">Orson Scott Card</span>
+        <span class="year">1985</span>
+      </section>
+      <section class="item">
+        <span class="title">Red Moon</span>
+        <span class="author">Kim Stanley Robinson</span>
+        <span class="year">2018</span>
+      </section>
+      <section class="item">
+        <span class="title">A Game of Thrones</span>
+        <span class="author">George R. R. Martin</span>
+        <span class="year">1996</span>
+      </section>
+    </main>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('btnToggle').addEventListener('click', (ev) => {
+          ev.preventDefault();
+          let main = document.querySelector('main');
+          if (main.classList.contains('cards')) {
+            main.className = 'rows';
+          } else {
+            main.className = 'cards';
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

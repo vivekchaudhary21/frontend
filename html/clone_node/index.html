@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CloneNode Method</title>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+      .advertisement {
+        color: #666;
+        padding: 1rem 2rem;
+        margin: 1rem;
+        border: 1px solid #999;
+        max-width: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Heading</h1>
+    <!-- original content 
+    to be copied-->
+    <div class="advertisement">
+      <h2>Advertisement</h2>
+      <p>Please send us money.</p>
+      <p>We promise to be thankful.</p>
+    </div>
+    <!-- target areas to place the copied content -->
+    <section id="target1"></section>
+    <section id="target2"></section>
+
+    <!-- script tag used to hold 
+    content to be copied -->
+    <script type="text/html">
+      <div class="advertisement">
+        <h2>From inside the template</h2>
+        <p>Copied with cloneNode.</p>
+        <p>Deep clone of the node.</p>
+        <p>By default, script content is NOT shown on the page.</p>
+      </div>
+    </script>
+
+    <script>
+      const init = function () {
+        let t1, t2, div1, temp, div2, cln;
+        t1 = document.getElementById('target1');
+        t2 = document.getElementById('target2');
+
+        div1 = document.querySelector('.advertisement');
+        t1.appendChild(div1.cloneNode(true));
+
+        temp = document.querySelector('[type="text/html"]');
+        cln = temp.cloneNode(true);
+        div2 = cln.textContent;
+        t2.innerHTML = div2;
+      };
+
+      document.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Bubbling and Propogation</title>
+    <style>
+      main {
+        border: 1px solid black;
+        height: 500px;
+        background-color: red;
+      }
+      div {
+        border: 1px solid black;
+        height: 400px;
+        margin: 50px;
+        background-color: green;
+      }
+      p {
+        border: 1px solid black;
+        height: 200px;
+        margin: 50px;
+        background-color: orange;
+      }
+      #s {
+        border: 1px solid black;
+        background-color: blue;
+        position: relative;
+        top: 50px;
+        left: 50px;
+      }
+      .gold {
+        background-color: gold;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="m">
+      <div id="d">
+        <p id="p"><span id="s"> hi i am a span</span></p>
+      </div>
+    </main>
+
+    <script>
+      // Event Bubbling and Propagation
+      //  element.addEventListener( type, func, useCapture);
+
+      let m = document.getElementById('m');
+      let d = document.getElementById('d');
+      let p = document.getElementById('p');
+      let s = document.getElementById('s');
+      let log = console.log;
+
+      let highlight = (ev) => {
+        //add CSS class "gold" to the clicked element
+        ev.stopPropagation();
+        let target = ev.currentTarget;
+        target.className = 'gold';
+        // reset(target);
+      };
+
+      let reset = (_element) => {
+        setTimeout(() => {
+          _element.className = '';
+        }, 2000);
+      };
+
+      d.addEventListener('click', (ev) => {
+        ev.stopImmediatePropagation();
+        log("Hi I'm a DIV");
+      });
+
+      [m, d, p, s].forEach((element) => {
+        element.addEventListener('click', highlight);
+      });
+    </script>
+  </body>
+</html>

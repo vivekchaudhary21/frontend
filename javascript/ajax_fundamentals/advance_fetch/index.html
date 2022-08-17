@@ -28,6 +28,8 @@
     <p>( This is your IP address ... probably )</p>
     <p id="btn">Show Image</p>
     <img />
+    <input type="file" name="file" id="file" />
+    <img id="preview" height="200px" width="200px" />
     <script>
       // ************************ FETCHING THE IP ADDRESS
       // define URL
@@ -61,6 +63,15 @@
             img.src = imageURL;
             img.style.height = '200px';
           });
+      });
+
+      // handling files upload
+
+      const fileUploadButton = document.querySelector('input[type="file"]');
+      const previewImage = document.querySelector('#preview');
+      fileUploadButton.addEventListener('change', (e) => {
+        console.log(e.target);
+        previewImage.src = URL.createObjectURL(e.target.files[0]);
       });
     </script>
   </body>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Responsive Images</title>
+    <style>
+      html {
+        font-size: 20px;
+        line-height: 1.5;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      header,
+      main {
+        margin: 1rem auto;
+        width: 90%;
+      }
+      header {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-end;
+      }
+      h1 {
+        margin: 0;
+        padding: 1rem 2rem;
+        color: hsl(50deg, 70%, 80%);
+        text-shadow: 1px 1px 3px #333;
+      }
+      img {
+        padding: 0;
+        margin: 0;
+        height: auto;
+      }
+      @media screen and (max-width: 600px) {
+        header {
+          background-image: url(./img/scott-web-600-600.jpg);
+          background-size: cover;
+          background-repeat: no-repeat;
+          min-height: 600px;
+          border-bottom: 2rem solid hsl(20deg, 50%, 70%);
+          justify-content: flex-start;
+          align-items: flex-end;
+        }
+        h1 {
+          font-size: 4rem;
+        }
+        img {
+          width: 100%;
+        }
+      }
+      @media screen and (min-width: 601px) and (max-width: 1200px) {
+        header {
+          background-image: url(./img/scott-web-1000-500.jpg);
+          background-size: cover;
+          min-height: 500px;
+          border-bottom: 2rem solid hsl(220deg, 50%, 70%);
+          justify-content: flex-end;
+          align-items: flex-end;
+        }
+        h1 {
+          font-size: 5rem;
+        }
+        img {
+          width: 90%;
+        }
+      }
+      @media screen and (min-width: 1201px) {
+        header {
+          background-image: url(./img/scott-web-1550-900.jpg);
+          background-size: cover;
+          min-height: 700px;
+          border-bottom: 2rem solid hsl(90deg, 50%, 70%);
+          justify-content: flex-start;
+          align-items: flex-start;
+        }
+        h1 {
+          font-size: 5rem;
+        }
+        img {
+          width: 60%;
+        }
+      }
+      @media screen and (max-width: 850px) {
+        h1 {
+          font-size: 3.2rem;
+        }
+      }
+      @media screen and (max-width: 550px) {
+        h1 {
+          font-size: 2.4rem;
+        }
+      }
+    </style>
+  </head>
+  <link rel="preload" type="image/jpg" href="./img/scott-web-600-600.jpg" />
+  <link rel="prefetch" type="image/jpg" href="./img/scott-web-1000-500.jpg" />
+  <link rel="prefetch" type="image/jpg" href="./img/scott-web-1550-900.jpg" />
+  <body>
+    <!--
+    Photo by Scott Webb on Unsplash
+    -->
+    <header>
+      <h1>Be Responsive</h1>
+    </header>
+    <main>
+      <h2>Couple in a Field</h2>
+      <p>
+        <picture>
+          <source
+            srcset="./img/scott-web-600-600.jpg"
+            type="image/jpg"
+            media="all and (max-width:600px)"
+          />
+          <source
+            srcset="./img/scott-web-1000-500.jpg"
+            type="image/jpg"
+            media="all and (min-width:601px) and (max-width:1200px)"
+          />
+          <source
+            srcset="./img/scott-web-1550-900.jpg"
+            type="image/jpg"
+            media="all and (min-width:1201px)"
+          />
+          <!-- the default -->
+          <img src="./img/scott-web-1000-500.jpg" alt="couple in field" />
+        </picture>
+      </p>
+      <!--
+        Same image at different sizes can be loaded through <img> with srcset and sizes
+        Different images being used in this example. All are same aspect ratio, same image saved at
+        <img srcset="./img/scott-web-600-400.jpg 600w,
+                    ./img/scott-web-900-600.jpg 900w,
+                    ./img/scott-web-1200-800.jpg 1200w,
+                    ./img/scott-web-1500-1000.jpg 1500w"
+             sizes="(min-width: 1500px) 60vw,
+                  (min-width: 1200px) 90vw,
+                  (min-width: 900px) 75vw,
+                  100vw"
+            src="./img/scott-web-1000-600.jpg"
+            alt="Couple in Field" />
+      -->
+    </main>
+  </body>
+</html>
