@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Page Visibility API</title>
+    <meta name="viewport" content="width=device-width" />
+  </head>
+  <body>
+    <h1>Page Visibility API</h1>
+    <p>
+      As long as this tab is the one tab in the browser with focus then nothing
+      happens. When the user switches to another tab that triggers the
+      visibilitychange event on the document object.
+    </p>
+    <script>
+      //document.hidden
+      //document.addEventListener('visibilitychange', myfunc)
+      //... webkitHidden  msHidden
+      //... webkitvisibilitychange  msvisibilitychange
+      let hidden, vChange;
+      if (typeof document.hidden !== 'undefined') {
+        hidden = 'hidden';
+        vChange = 'visibilitychange';
+      } else if (typeof document.webkitHidden !== 'undefined') {
+        hidden = 'webkitHidden';
+        vChange = 'webkitvisibilitychange';
+      } else if (typeof document.msHidden !== 'undefined') {
+        hidden = 'msHidden';
+        vChange = 'msvisibilitychange';
+      } else {
+        //no support
+        hidden = null;
+        vChange = null;
+      }
+      if (hidden !== null) {
+        document.addEventListener(vChange, function (ev) {
+          console.log('visibilitychange', document[hidden]);
+
+          if (document[hidden]) {
+            //page has lost focus
+            //stop the audio or video
+          } else {
+            //page has regained focus
+            //start the audio or video
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

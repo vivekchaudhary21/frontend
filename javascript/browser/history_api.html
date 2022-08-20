@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>History API</title>
+  </head>
+  <body>
+    <h1>History API</h1>
+    <p>This will feel like SPA</p>
+    <a href="list" data-person="456" id="link">Navigate to list page</a>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('link').addEventListener('click', c);
+      });
+
+      function c(ev) {
+        ev.preventDefault();
+        let href = ev.currentTarget.href;
+        let pid = ev.currentTarget.dataset.person;
+        history.replaceState({ pid }, 'title', href);
+        loadPerson();
+      }
+
+      function loadPerson() {
+        let hs = JSON.stringify(history.state);
+        let data = JSON.parse(hs);
+        console.log(data);
+      }
+    </script>
+  </body>
+</html>
