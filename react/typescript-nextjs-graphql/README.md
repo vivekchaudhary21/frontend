@@ -32,3 +32,25 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Installing and Running Prisma
+
+===== One time change =====
+
+1. Npm install prisma
+2. Npx prisma init
+3. Change DATABASE_URL in env file
+4. Add model in schema.prisma
+
+===== Every time u want to update models =====
+
+1. npx prisma db push
+2. npx prisma studio
+
+===== Running POSTGRES SQL Instance =====
+
+1. Go to data.heroku.com
+2. Click on available db
+3. Click on settings
+4. Click on view credentials
+5. Copy the URI and paste in env file in prisma in DATABASE_URL
