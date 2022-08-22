@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>More than English</title>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      section {
+        width: 400px;
+        padding: 0.5rem 1rem;
+        margin: 1rem;
+        border: 1px solid #aaa;
+        font: 1rem/1.5 sans-serif;
+      }
+      h1 {
+        padding: 1rem;
+        border-bottom: 0.5rem solid #aaa;
+        letter-spacing: 3px;
+      }
+
+      [lang] {
+        unicode-bidi: bidi-override;
+        direction: ltr;
+      }
+      [lang='ar'] {
+        direction: rtl;
+      }
+    </style>
+    <!--
+    https://www.w3.org/International/questions/qa-i18n
+    i18n - internationalization: 
+    Internationalization is the design and development of a product, application or document content that enables easy localization for target audiences that vary in culture, region, or language.
+    
+    l10n - localization: 
+    Numeric, date and time formats
+    Use of currency
+    Keyboard usage
+    Collation and sorting
+    Symbols, icons and colors
+    Text and graphics containing references to objects, actions or ideas which, in a given culture, may be subject to misinterpretation or viewed as insensitive.
+    Varying legal requirements
+    and many more things.
+    
+    g11n - globalization: combination of both
+    -->
+  </head>
+  <body>
+    <h1>More Than Just English</h1>
+    <section lang="sv">
+      <p title="I'm sorry. I don't like Surstromming">
+        Förlåt. Jag gillar inte Surströmming
+      </p>
+    </section>
+    <section lang="ar">
+      <p title="Don't tell the Americans">لا تخبر الأمريكيين</p>
+    </section>
+    <section lang="de">
+      <p title="I'm fine, thanks.">Mir geht's gut, danke.</p>
+    </section>
+    <section lang="pt">
+      <p title="To each their own.*">Gosto não se discute.</p>
+    </section>
+    <section lang="ru">
+      <p title="I would like a beer">Я хотел бы пива.</p>
+    </section>
+    <section lang="fr">
+      <p title="I swear! I didn't do it!">Je te jure! Je n’ai rien fait!</p>
+    </section>
+
+    <script></script>
+  </body>
+</html>
