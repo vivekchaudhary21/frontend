@@ -19,7 +19,3 @@
 
 1. npx prisma db push
 2. npx prisma studio
-
-============ Run project ===============
-
-1. generate gql types: npm run graphql:codegen
