@@ -1,2 +1,2 @@
-export * from './mutation';
+export * from './resolvers';
 export * from './queries';
