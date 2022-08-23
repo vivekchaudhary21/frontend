@@ -54,3 +54,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 3. Click on settings
 4. Click on view credentials
 5. Copy the URI and paste in env file in prisma in DATABASE_URL
+
+============ Run project ===============
+
+1. npm run dev
+2. generate gql types: npm run graphql:codegen
+3. run apollo studio on http://localhost:3000/api/graphql
+4. database: npm run prisma:studio
