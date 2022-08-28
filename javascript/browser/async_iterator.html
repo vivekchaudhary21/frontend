@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const srcArr = [
+        'https://eloux.com/async_js/examples/1.json',
+        'https://eloux.com/async_js/examples/2.json',
+        'https://eloux.com/async_js/examples/3.json',
+      ];
+
+      srcArr[Symbol.asyncIterator] = function () {
+        let i = 0;
+        return {
+          async next() {
+            if (i === srcArr.length) {
+              return {
+                done: true,
+              };
+            }
+            const url = srcArr[i++];
+            const response = await fetch(url);
+            if (!response.ok) {
+              throw new Error('unable to recieve data from ', url);
+            }
+
+            const result = await response.json();
+            return {
+              value: result.firstName.toUpperCase(),
+              done: false,
+            };
+          },
+        };
+      };
+
+      (async function () {
+        for await (const url of srcArr) {
+          console.log(url);
+        }
+      })();
+    </script>
+  </body>
+</html>
