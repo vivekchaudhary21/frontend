@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Custom Error using javascript</h1>
+
+    <script>
+      const err = new Error('Custom error');
+      const MyError = function (msg) {
+        return Object.create(Error.prototype, {
+          name: { value: 'MyError', enumerable: true },
+          message: { value: msg, enumerable: true },
+        });
+      };
+
+      class MyClassError extends Error {
+        constructor(response) {
+          super();
+          this.name = 'MyClassError';
+          this.message = response.statusText;
+          // creating custom properties
+          this.code = response.status;
+          this.response = response;
+        }
+      }
+      const myError = new MyError('Custom My Error');
+      document.addEventListener('click', function () {
+        try {
+          throw myError;
+        } catch (error) {
+          console.log('error thrown:', { error });
+        }
+      });
+
+      const response = new Response(21, {
+        status: 400,
+        statusText: 'its a failure',
+      });
+
+      Promise.resolve(response)
+        .then((response) => {
+          if (!response.ok) throw new MyClassError(response);
+          return response.json();
+        })
+        .then((data) => console.log(data))
+        .catch((err) => {
+          console.log({ err });
+        });
+    </script>
+  </body>
+</html>
