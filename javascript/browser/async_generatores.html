@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Async Generators</title>
+  </head>
+  <body>
+    <script>
+      const srcArr = [
+        'https://eloux.com/async_js/examples/1.json',
+        'https://eloux.com/async_js/examples/2.json',
+        'https://eloux.com/async_js/examples/3.json',
+      ];
+
+      srcArr[Symbol.asyncIterator] = async function* () {
+        let i = 0;
+        for (const url of this) {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error('Unable to reveive data from ', url);
+          }
+
+          yield response.json();
+        }
+      };
+
+      const asyncIterator = srcArr[Symbol.asyncIterator]();
+
+      for (let i = 0; i < srcArr.length; i++) {
+        asyncIterator.next().then((result) => {
+          console.log(result.value.firstName);
+        });
+      }
+    </script>
+  </body>
+</html>

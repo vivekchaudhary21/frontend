@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dont use ForEach With Promises</title>
+  </head>
+  <body>
+    <script>
+      const ids = [1, 2, 3, 4, 5, 6];
+      const url = 'https://jsonplaceholder.typicode.com/posts/id';
+
+      function useForEach(ids) {
+        const getPost = async (url) => await (await fetch(url)).json();
+
+        // data will not come in order
+        // ids.forEach(async (id) => {
+        //   getPost(url.replace('id', id)).then((data) => {
+        //     console.log(data);
+        //   });
+        // });
+
+        // data will come in order
+        // for (let i = 0; i < ids.length; i++) {
+        //   getPost(url.replace('id', ids[i])).then((data) => {
+        //     console.log(data);
+        //   });
+        // }
+
+        // data will come in order
+        const promises = Promise.all(
+          ids.map(async (id) => await getPost(url.replace('id', id)))
+        );
+
+        promises.then((data) => {
+          console.log(data);
+        });
+      }
+
+      useForEach(ids);
+    </script>
+  </body>
+</html>

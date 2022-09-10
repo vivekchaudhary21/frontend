@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debounce</title>
+  </head>
+  <button id="button">Debounced Button</button>
+  <body>
+    <script>
+      function initApp() {
+        const button = document.querySelector('#button');
+        button.addEventListener('click', debounceFn(clickLog, 3000));
+
+        function clickLog() {
+          console.log('Clicked');
+        }
+      }
+
+      const debounceFn = (fn, delay) => {
+        let id;
+        return (...args) => {
+          if (id) {
+            clearTimeout(id);
+          }
+          id = setTimeout(() => {
+            fn(...args);
+          }, delay);
+        };
+      };
+
+      initApp();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promise.all & Promise.allSettled</title>
+  </head>
+  <body>
+    <script>
+      const srcArrForAll = [
+        fetch('https://eloux.com/async_js/examples/1.json'),
+        fetch('https://eloux.com/async_js/examples/2.json'),
+        fetch('https://eloux.com/async_js/examples/3.json'),
+      ];
+
+      Promise.all(srcArrForAll)
+        .then((data) => {
+          data.forEach(async (response) => {
+            const data = await response.json();
+            console.log(data);
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      const finalData = [];
+      const srcArrForAllSettled = [
+        fetch('https://eloux.com/async_js/examples/1.json'),
+        fetch('https://eloux.com/async_js/examples/2.json'),
+        fetch('https://eloux.com/async_js/examples/3.json'),
+      ];
+      Promise.allSettled(srcArrForAllSettled)
+        .then((data) => {
+          data.forEach(async (response) => {
+            try {
+              if (response.value) {
+                const data = await response.value.json();
+                finalData.push(data);
+              }
+            } catch (error) {
+              console.log('error fetching data in async await', error);
+            }
+          });
+        })
+        .catch((e) => {
+          console.log('error fetching data', e);
+        })
+        .finally(() => {
+          console.log('finally', finalData);
+        });
+    </script>
+  </body>
+</html>

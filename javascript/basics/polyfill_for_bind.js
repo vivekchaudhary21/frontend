@@ -1,14 +1,14 @@
 const obj = {
-  name: 'User',
+  nameee: 'User',
 };
 
 function showName(message, message2) {
-  console.log(`${message}, ${this.name}. ${message2}`);
+  console.log(`${message}, ${this.nameee}. ${message2}`);
 }
 
-const showNameWithMessage = showName.bind(obj, 'Good Morning');
+// const showNameWithMessage = showName.bind(obj, 'Good Morning');
 
-showNameWithMessage('Today is your day');
+// showNameWithMessage('Today is your day');
 
 Function.prototype.bindModified = function (calledObj, ...rest) {
   return (...rest2) => {
