@@ -17,7 +17,7 @@ export const parameters = {
   },
 };
 
-// GLobal Decorators
+// Global Decorators
 export const decorators = [
   (Story) => (
     <ThemeProvider theme={theme}>
