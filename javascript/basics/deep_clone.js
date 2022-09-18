@@ -1,32 +1,3 @@
-const arr = [
-  1,
-  2,
-  3,
-  {
-    a: 1,
-    aa: {
-      aaa: 3,
-    },
-  },
-  { b: 2 },
-  new Date(),
-  [3, 4, 5, 6],
-];
-
-// make shallow copy
-// const newArr = [...arr, { c: 3 }];
-
-// make shallow copy
-// const newArr = Object.assign([], arr);
-
-// make shallow freeze
-// const newArr = Object.freeze(arr);
-
-// make deep copy or use libraries like Lodash, Ramda etc
-// const newArr = JSON.parse(JSON.stringify(arr)); // but has its limitatons
-
-// vanilla  js deep clone
-
 const deepClone = (obj) => {
   if (!(obj instanceof Object)) {
     return obj;
@@ -42,7 +13,20 @@ const deepClone = (obj) => {
   return newObject;
 };
 
-const newArr = deepClone(arr);
+const arr = [
+  1,
+  2,
+  3,
+  {
+    a: 1,
+    aa: {
+      aaa: 3,
+    },
+  },
+  { b: 2 },
+  new Date(),
+  [3, 4, 5, 6],
+];
 
 const obj = {
   a: 1,
@@ -55,6 +39,7 @@ const obj = {
   },
 };
 
+const newArr = deepClone(arr);
 const newObj = deepClone(obj);
 
 newArr[0] = 4;

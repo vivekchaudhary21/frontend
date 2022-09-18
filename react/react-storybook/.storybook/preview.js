@@ -1,3 +1,6 @@
+import React from 'react';
+import { ThemeProvider, theme, CSSReset, Box } from '@chakra-ui/react';
+
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
@@ -13,3 +16,15 @@ export const parameters = {
         : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
   },
 };
+
+// GLobal Decorators
+export const decorators = [
+  (Story) => (
+    <ThemeProvider theme={theme}>
+      <CSSReset />
+      <Box m='4'>
+        <Story />
+      </Box>
+    </ThemeProvider>
+  ),
+];
