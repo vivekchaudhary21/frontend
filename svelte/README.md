@@ -7,5 +7,5 @@
 
 # Create a starter project
 
-npm init vite
-select svelte
+- npm init vite
+- select svelte
