@@ -29,10 +29,6 @@
 </div>
 
 <style>
-  input {
-    padding: 18px;
-    border-radius: 5px;
-  }
   div {
     margin-bottom: 20px;
   }

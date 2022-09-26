@@ -192,3 +192,25 @@ for (let word of someText.matchAll(words)) {
 /*****************************************************************************/
 /***************************** THE REGEXP CLASS ******************************/
 /*****************************************************************************/
+
+/**
+ * The RegExp() constructor takes one or two string arguments and creates a new RegExp object.
+ * The first argument to this constructor is a string that contains the body of the regular expression -
+ * the text that would appear within slashes in a regular-expression literal
+ * The second argument to RegExp() is optional. If supplied, it indicates the regular expression flags.
+ * It should be g, i, m, s, u, y, or any combination of those letters.
+ */
+
+/**
+ * test()
+ * The test() method of the RegExp class is the simplest way to use a regular expression.
+ * It takes a single string argument and returns true if the string matches the pattern or false if it does not match.
+ */
+
+/**
+ * exec()
+ * The RegExp exec() method is the most general and powerful way to use regular expressions.
+ * It takes a single string argument and looks for a match in that string.
+ * If no match is found, it returns null.
+ * If a match is found, however, it returns an array just like the array returned by the match() method for non-global searches.
+ */
