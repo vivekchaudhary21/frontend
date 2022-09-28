@@ -4,9 +4,9 @@
   let name = '';
   let age = '';
   let list = [
-    { id: '1', name: 'Vihaan', age: 7 },
-    { id: '2', name: 'Chandni', age: 34 },
-    { id: '3', name: 'Vivek', age: 35 },
+    { id: '1', name: 'A', age: 1 },
+    { id: '2', name: 'B', age: 2 },
+    { id: '3', name: 'C', age: 3 },
   ];
 
   const handleSubmit = () => {
@@ -34,9 +34,11 @@
 </script>
 
 <div>
-  <input type="text" placeholder="Enter Name" bind:value={name} />
-  <input type="text" placeholder="Enter Age" bind:value={age} />
-  <button type="submit" on:click={handleSubmit}>Submit</button>
+  <form on:submit|preventDefault={handleSubmit}>
+    <input type="text" placeholder="Enter Name" bind:value={name} />
+    <input type="text" placeholder="Enter Age" bind:value={age} />
+    <button type="submit">Submit</button>
+  </form>
 
   <ul>
     {#each list as item (item.id)}

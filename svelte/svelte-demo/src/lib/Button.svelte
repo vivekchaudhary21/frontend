@@ -1,6 +1,6 @@
 <script>
-  let fname = 'Vihaan';
-  let lname = 'Bhakra';
+  let fname = 'Foo';
+  let lname = 'Bar';
   let color = 'white';
 
   // Code will run everytime values changes inside them
