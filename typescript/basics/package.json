@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "init": "tsc --init",
-    "start": "nodemon index.ts "
+    "start": "nodemon index.ts ",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
