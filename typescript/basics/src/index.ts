@@ -1,15 +1,17 @@
 import * as basicTypes from './basic-types'
 import * as functionTypes from './functions'
 import * as tuplesTypes from './tuples'
+import * as generics from './generics'
 import houses from './houses.json'
 
 basicTypes.myRETest // /foo/
+
+// Function
 functionTypes.getName({ first: 'Foo', last: 'Bar' }) // Foo Bar
 functionTypes.printToFile('great', console.log) //great
 functionTypes.mutate([1, 2, 3], v => v * 10) // [10,20,30]
 const outer = functionTypes.closureFunc('first')
 outer('second') // This is a closure function passed first second as arguments
-
 functionTypes.findHouses(JSON.stringify(houses))
 functionTypes.findHouses(JSON.stringify(houses), ({ name }) => name === 'Atreides')
 functionTypes.findHouses(houses)
@@ -19,7 +21,27 @@ functionTypes.parseCoordinate({ x: 2, y: 2 })
 functionTypes.parseCoordinate(3, 2)
 functionTypes.parseCoordinate('x:12,y:22')
 tuplesTypes.add3dCoordinate([1, 2, 3], [1, 2, 3])
-const [stringGetter, stringSetter] = tuplesTypes.strindState('first')
+
+// Tuples
+const [stringGetter, stringSetter] = tuplesTypes.simpleStringState('first')
 stringGetter() // first
 stringSetter('second')
 stringGetter() // second
+
+// Generics
+const [stateGetter, stateSetter] = generics.simpleState(10)
+stateGetter() // 10
+stateSetter(20)
+stateGetter() //20
+
+const [stateGetter2, stateSetter2] = generics.simpleState<string | null>(null)
+stateGetter2() // null
+stateSetter2('string')
+stateGetter2() // string
+
+generics.ranker(generics.pokemon, ({ hp }) => hp)
+const arrOfNum = [1, 2, 3, 4]
+generics.myForEach(arrOfNum, val => val * 2) // [2,4,6,8]
+const arrOfStr = ['a', 'b', 'c', 'd']
+generics.myForEach(arrOfStr, val => val.toUpperCase()) // ["A", "B", "C", "D"]
+generics.myMap(arrOfNum, val => val * 2) // [4,8,12,16]

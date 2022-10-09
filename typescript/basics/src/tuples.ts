@@ -12,7 +12,7 @@ export function add3dCoordinate(c1: threeDCordinates, c2: threeDCordinates): thr
   return result as threeDCordinates
 }
 
-export function strindState(intialValue: string): [() => string, (v: string) => void] {
+export function simpleStringState(intialValue: string): [() => string, (v: string) => void] {
   let str: string = intialValue
   return [
     () => str,
