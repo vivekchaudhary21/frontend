@@ -65,3 +65,32 @@ export function myMap<T>(arr: T[], func: (val: T) => T): T[] {
 /***************************************************************************/
 /************************ Generics with keyof ******************************/
 /***************************************************************************/
+
+export function pluck<Datatype, KeyType extends keyof Datatype>(items: Datatype[], key: KeyType): Datatype[KeyType][] {
+  return items.map(item => item[key])
+}
+
+export const dogs = [
+  {
+    name: 'mimi',
+    age: 12
+  },
+  {
+    name: 'kitti',
+    age: 13
+  }
+]
+
+export interface BaseEvent {
+  time: number
+  user: string
+}
+
+export interface EventMap {
+  addToCart: BaseEvent & { quantity: number; productID: string }
+  checkout: BaseEvent
+}
+
+export function sendEvent<Name extends keyof EventMap>(name: Name, data: EventMap[Name]): void {
+  console.log([name, data])
+}
