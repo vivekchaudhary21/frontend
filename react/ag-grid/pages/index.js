@@ -19,12 +19,24 @@ export default () => {
           <a>getting-started/hooks</a>
         </Link>
         <br />
-        <Link href="/interface-api/grid-interface">
-          <a>interface-api/grid-interface</a>
+        <Link href="/columns/column-definations">
+          <a>columns/column-definations</a>
         </Link>
         <br />
-        <Link href="/interface-api/column-interface">
-          <a>interface-api/column-interface</a>
+        <Link href="/columns/updating-column-definations">
+          <a>columns/updating-column-definations</a>
+        </Link>
+        <br />
+        <Link href="/columns/save-and-apply-state">
+          <a>columns/save-and-apply-state</a>
+        </Link>
+        <br />
+        <Link href="/columns/group">
+          <a>columns/group</a>
+        </Link>
+        <br />
+        <Link href="/client-side-data/context">
+          <a>client-side-data/context</a>
         </Link>
         <br />
       </div>
