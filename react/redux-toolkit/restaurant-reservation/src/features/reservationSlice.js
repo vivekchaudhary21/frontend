@@ -12,7 +12,7 @@ const reservationSlice = createSlice({
       state.value.push(action.payload)
     },
     deleteReservation: (state, action) => {
-      state.value = state.value.filter(name => name !== action.payload)
+      state.value = state.value.filter(person => person.id !== action.payload)
     }
   }
 })
