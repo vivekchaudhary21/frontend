@@ -1,0 +1,19 @@
+{
+  "name": "immer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "immer": "^9.0.16"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
