@@ -17,9 +17,12 @@ const counterSlice = createSlice({
     },
     subtractCustomValue: (state, action) => {
       state.value -= action.payload
+    },
+    resetAll: state => {
+      state.value = 0
     }
   }
 })
 
 export default counterSlice.reducer
-export const { addOne, subtractOne, addCustomValue, subtractCustomValue } = counterSlice.actions
+export const { addOne, subtractOne, addCustomValue, subtractCustomValue, resetAll } = counterSlice.actions

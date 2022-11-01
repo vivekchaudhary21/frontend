@@ -1,30 +1,13 @@
-import React, { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
 
-import { ParentComponent } from './components/ParenComponent'
-import { addOne, subtractOne } from './features/counter/counterSlice'
 import './App.css'
+import { Counter } from './features/counter/Counter'
 
-function App() {
-  const count = useSelector(state => state.counter.value)
-  const dispatch = useDispatch()
-
-  const onAdd = useCallback(() => {
-    dispatch(addOne())
-  }, [dispatch])
-
-  const onSubtract = useCallback(() => {
-    dispatch(subtractOne())
-  }, [dispatch])
-
+const App = () => {
   return (
     <div className="App">
       <div className="main">
-        <h1>Counter</h1>
-        <button onClick={onAdd}>Add One</button>
-        <p>{count}</p>
-        <button onClick={onSubtract}>Subtract One</button>
-        <ParentComponent />
+        <Counter />
       </div>
     </div>
   )
