@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        .outer {
+            height: 500px;
+            width: 500px;
+            border: 20px solid black;
+            /* position: relative */
+            /* BEST WAY*/
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .inner {
+            height: 100px;
+            width: 100px;
+            background-color: gold;
+            border-radius: 50%;
+            /* margin: calc(500px - 250px - 50px ) auto; first way */ 
+            /* position: absolute; second way
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto; */
+
+        }
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <div class="inner"></div>
+    </div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import { useState, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { AsyncTodosReducer } from "./AsyncTodosReducer";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -13,7 +14,7 @@ const reducer = (state, action) => {
     }
 
     case "delete": {
-      return state.filter((book) => book.id != action.payload);
+      return state.filter((book) => book.id !== action.payload);
     }
 
     case "edit": {
@@ -144,6 +145,7 @@ function App() {
           )}
         </div>
       ))}
+      <AsyncTodosReducer />
     </div>
   );
 }
