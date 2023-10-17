@@ -11,32 +11,28 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: grey;
+  margin: 0;
+  padding: 0;
 }
 
-.main {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
+main nav {
+  min-width: 200px;
+  width: 200px;
   height: 100vh;
+  position: fixed;
   overflow: hidden;
-}
-
-.main > div:nth-child(1) {
-  /* width: 200px; */
-  border-right: 1px solid black;
-  height: inherit;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 20px;
+  align-items: center;
+  border-right: 1px solid black;
 }
 
-.main > div:nth-child(2) {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+main > div {
+  margin-left: 200px;
+}
+
+/* Navlink active class */
+a.active {
+  color: white;
 }

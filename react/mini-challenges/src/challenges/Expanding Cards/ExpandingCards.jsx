@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import data from './data.json'
-import './expandingcards.modules.css'
+import styles from './expandingcards.module.css'
 
 export const ExpandingCards = () => {
   const [activeIndex, setactiveIndex] = useState(1)
   return (
-    <div className="container">
+    <div className={styles.container}>
       {data.map((image, index) => (
         <div
           key={image.name}
-          className={`panel${index === activeIndex ? ' active' : ''}`}
+          className={`${styles.panel} ${
+            index === activeIndex && styles.active
+          }`}
           style={{
             backgroundImage: `url(${image.imageUrl})`,
           }}

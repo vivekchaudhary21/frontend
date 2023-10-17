@@ -1,4 +1,6 @@
-import { Link } from '@remix-run/react';
+import { Link } from '@remix-run/react'
+import type { LinksFunction } from '@remix-run/node'
+import homeStyles from '../styles/home.css'
 
 export default function Index() {
   return (
@@ -9,5 +11,9 @@ export default function Index() {
         <Link to="/notes">Try Now!</Link>
       </p>
     </main>
-  );
+  )
 }
+
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: homeStyles },
+]
