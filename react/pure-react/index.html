@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pure react without any framework</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+    <!-- <script type="text/babel"> -->
+    <script>
+      // const App = () => {
+      //   return <div>Hello pure react using jsx !!!</div>
+      // }
+
+      const App = () => {
+        const [time, setTime] = React.useState(new Date().toLocaleTimeString())
+
+        React.useEffect(() => {
+          const intervalID = setInterval(() => {
+            setTime(new Date().toLocaleTimeString())
+          }, 1000)
+
+          return () => {
+            clearInterval(intervalID)
+          }
+        }, [])
+
+        return React.createElement(
+          'header',
+          '',
+          React.createElement('h1', '', `Timer using pure react - ${time}`)
+        )
+      }
+
+      const printThisAfterAppIsRendered = () => {
+        console.log('this is printed after app is rendered')
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(React.createElement(App), printThisAfterAppIsRendered())
+    </script>
+  </body>
+</html>
