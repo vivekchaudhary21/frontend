@@ -4,6 +4,7 @@ import {
   DadJokes,
   ExpandingCards,
   InfiniteScroll,
+  KeyBoxes,
   ProgressSteps,
   ScrollAnimation,
 } from './challenges'
@@ -18,6 +19,7 @@ function App() {
       <Route path={PATHS.INFINITE_SCROLL} element={<InfiniteScroll />} />
       <Route path={PATHS.SCROLL_ANIMATION} element={<ScrollAnimation />} />
       <Route path={PATHS.DAD_JOKES} element={<DadJokes />} />
+      <Route path={PATHS.KEY_BOXES} element={<KeyBoxes />} />
     </Routes>
   )
 }

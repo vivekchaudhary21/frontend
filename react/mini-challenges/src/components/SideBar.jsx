@@ -11,6 +11,7 @@ const SideBar = () => {
       <NavLink to={PATHS.INFINITE_SCROLL}>Infinite Scroll</NavLink>
       <NavLink to={PATHS.SCROLL_ANIMATION}>Scroll Animation</NavLink>
       <NavLink to={PATHS.DAD_JOKES}>Dad Jokes </NavLink>
+      <NavLink to={PATHS.KEY_BOXES}>Key Boxes</NavLink>
     </nav>
   )
 }
