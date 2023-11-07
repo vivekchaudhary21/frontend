@@ -3,11 +3,11 @@ import styles from './scrollanaimation.module.css'
 
 export const ScrollAnimation = () => {
   const [boxes, setBoxes] = useState(() => {
-    return Array(100)
+    return Array(10000)
       .fill(0)
       .map((v, i) => ({
         content: `Context Box ${i + 1}`,
-        show: '',
+        show: i < 3 ? 'show' : '',
       }))
   })
 
@@ -34,7 +34,7 @@ export const ScrollAnimation = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  })
+  }, [boxes])
 
   return (
     <div className={styles.container}>

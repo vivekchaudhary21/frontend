@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { PATHS } from './paths'
 import {
+  DadJokes,
   ExpandingCards,
   InfiniteScroll,
   ProgressSteps,
@@ -16,6 +17,7 @@ function App() {
       <Route path={PATHS.PROGRESS_STEPS} element={<ProgressSteps />} />
       <Route path={PATHS.INFINITE_SCROLL} element={<InfiniteScroll />} />
       <Route path={PATHS.SCROLL_ANIMATION} element={<ScrollAnimation />} />
+      <Route path={PATHS.DAD_JOKES} element={<DadJokes />} />
     </Routes>
   )
 }

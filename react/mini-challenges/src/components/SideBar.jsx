@@ -10,6 +10,7 @@ const SideBar = () => {
       <NavLink to={PATHS.PROGRESS_STEPS}>Progress Steps</NavLink>
       <NavLink to={PATHS.INFINITE_SCROLL}>Infinite Scroll</NavLink>
       <NavLink to={PATHS.SCROLL_ANIMATION}>Scroll Animation</NavLink>
+      <NavLink to={PATHS.DAD_JOKES}>Dad Jokes </NavLink>
     </nav>
   )
 }

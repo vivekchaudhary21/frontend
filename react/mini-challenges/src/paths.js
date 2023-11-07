@@ -4,4 +4,5 @@ export const PATHS = {
   PROGRESS_STEPS: '/progress-steps',
   INFINITE_SCROLL: '/infinite-scroll',
   SCROLL_ANIMATION: '/scroll-animation',
+  DAD_JOKES: '/dad-jokes',
 }
