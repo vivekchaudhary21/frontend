@@ -6,4 +6,5 @@ export const PATHS = {
   SCROLL_ANIMATION: '/scroll-animation',
   DAD_JOKES: '/dad-jokes',
   KEY_BOXES: '/key-boxes',
+  INCREMENT_COUNTER: '/increment-counter',
 }

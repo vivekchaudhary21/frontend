@@ -3,6 +3,7 @@ import { PATHS } from './paths'
 import {
   DadJokes,
   ExpandingCards,
+  IncrementCounter,
   InfiniteScroll,
   KeyBoxes,
   ProgressSteps,
@@ -20,6 +21,7 @@ function App() {
       <Route path={PATHS.SCROLL_ANIMATION} element={<ScrollAnimation />} />
       <Route path={PATHS.DAD_JOKES} element={<DadJokes />} />
       <Route path={PATHS.KEY_BOXES} element={<KeyBoxes />} />
+      <Route path={PATHS.INCREMENT_COUNTER} element={<IncrementCounter />} />
     </Routes>
   )
 }
