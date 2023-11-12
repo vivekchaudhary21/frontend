@@ -13,6 +13,7 @@ const SideBar = () => {
       <NavLink to={PATHS.DAD_JOKES}>Dad Jokes </NavLink>
       <NavLink to={PATHS.KEY_BOXES}>Key Boxes</NavLink>
       <NavLink to={PATHS.INCREMENT_COUNTER}>Increment Counter</NavLink>
+      <NavLink to={PATHS.DRINK_WATER}>Drink Water</NavLink>
     </nav>
   )
 }
