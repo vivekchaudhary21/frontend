@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './incrementcounter.module.css'
 
 export const IncrementCounter = () => {
@@ -8,45 +8,52 @@ export const IncrementCounter = () => {
     facebookFans: 0,
   })
 
-  useEffect(() => {
-    if (social.twitterFollowers < 12000) {
-      setSocial((pv) => ({
-        ...pv,
-        twitterFollowers: pv.twitterFollowers + 1,
-      }))
-    }
-  }, [social.twitterFollowers])
+  const socialRef = {
+    twitterRef: useRef(),
+    youTubeRef: useRef(),
+    facebookRef: useRef(),
+  }
 
   useEffect(() => {
-    if (social.youTubeSubscribers < 5000) {
-      setSocial((pv) => ({
-        ...pv,
-        youTubeSubscribers: pv.youTubeSubscribers + 1,
-      }))
-    }
-  }, [social.youTubeSubscribers])
+    const totalTwitterFollowers = socialRef.twitterRef.current.dataset.target
+    const totalYouTubeSubscribers = socialRef.youTubeRef.current.dataset.target
+    const totalFacebookFans = socialRef.facebookRef.current.dataset.target
 
-  useEffect(() => {
-    if (social.facebookFans < 7500) {
-      setSocial((pv) => ({
-        ...pv,
-        facebookFans: pv.facebookFans + 1,
-      }))
-    }
-  }, [social.facebookFans])
+    const shouldUpdateTwitterFollowers =
+      social.twitterFollowers < totalTwitterFollowers
+    const shouldUpdateYoutubeSubscribers =
+      social.youTubeSubscribers < totalYouTubeSubscribers
+    const shouldUpdateFacebookFans = social.facebookFans < totalFacebookFans
 
-  useEffect(() => {
     setSocial((pv) => ({
-      twitterFollowers: pv.twitterFollowers++,
-      youTubeSubscribers: pv.youTubeSubscribers++,
-      facebookFans: pv.facebookFans++,
+      twitterFollowers: shouldUpdateTwitterFollowers
+        ? pv.twitterFollowers + 1
+        : pv.twitterFollowers,
+      youTubeSubscribers: shouldUpdateYoutubeSubscribers
+        ? pv.youTubeSubscribers + 1
+        : pv.youTubeSubscribers,
+      facebookFans: shouldUpdateFacebookFans
+        ? pv.facebookFans + 1
+        : pv.facebookFans,
     }))
-  }, [])
+  }, [
+    social.twitterFollowers,
+    socialRef.twitterRef,
+    social.youTubeSubscribers,
+    socialRef.youTubeRef,
+    social.facebookFans,
+    socialRef.facebookRef,
+  ])
+
   return (
     <div className="main-container">
       <div className={styles.counterContainer}>
         <i className="fab fa-twitter fa-3x"></i>
-        <div className={styles.counter} data-target="12000">
+        <div
+          className={styles.counter}
+          data-target="12000"
+          ref={socialRef.twitterRef}
+        >
           {social.twitterFollowers}
         </div>
         <span>Twitter Followers</span>
@@ -54,7 +61,11 @@ export const IncrementCounter = () => {
 
       <div className={styles.counterContainer}>
         <i className="fab fa-youtube fa-3x"></i>
-        <div className={styles.counter} data-target="5000">
+        <div
+          className={styles.counter}
+          data-target="5000"
+          ref={socialRef.youTubeRef}
+        >
           {social.youTubeSubscribers}
         </div>
         <span>YouTube Subscribers</span>
@@ -62,7 +73,11 @@ export const IncrementCounter = () => {
 
       <div className={styles.counterContainer}>
         <i className="fab fa-facebook fa-3x"></i>
-        <div className={styles.counter} data-target="7500">
+        <div
+          className={styles.counter}
+          data-target="7500"
+          ref={socialRef.facebookRef}
+        >
           {social.facebookFans}
         </div>
         <span>Facebook Fans</span>
