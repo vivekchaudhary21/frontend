@@ -8,4 +8,5 @@ export const PATHS = {
   KEY_BOXES: '/key-boxes',
   INCREMENT_COUNTER: '/increment-counter',
   DRINK_WATER: '/drink-water',
+  THEME_CLOCK: '/theme-clock',
 }

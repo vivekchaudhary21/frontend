@@ -14,6 +14,7 @@ const SideBar = () => {
       <NavLink to={PATHS.KEY_BOXES}>Key Boxes</NavLink>
       <NavLink to={PATHS.INCREMENT_COUNTER}>Increment Counter</NavLink>
       <NavLink to={PATHS.DRINK_WATER}>Drink Water</NavLink>
+      <NavLink to={PATHS.THEME_CLOCK}>Theme Clock</NavLink>
     </nav>
   )
 }
