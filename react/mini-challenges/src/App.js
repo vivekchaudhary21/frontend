@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { PATHS } from './paths'
+import { PATHS } from './constants'
 import {
   DadJokes,
   ExpandingCards,

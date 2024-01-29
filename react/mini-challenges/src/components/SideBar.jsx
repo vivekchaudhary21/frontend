@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { PATHS } from '../paths'
+import { PATHS } from '../constants'
 
 const SideBar = () => {
   return (
