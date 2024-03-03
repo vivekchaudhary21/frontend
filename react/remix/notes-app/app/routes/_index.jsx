@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react'
-import styles from '~/styles/home.css'
+import homeStyles from '~/styles/home.css'
 
 export default function Index() {
   return (
@@ -14,5 +14,5 @@ export default function Index() {
 }
 
 export function links() {
-  return [{ rel: 'stylesheet', href: styles }]
+  return [{ rel: 'stylesheet', href: homeStyles }]
 }

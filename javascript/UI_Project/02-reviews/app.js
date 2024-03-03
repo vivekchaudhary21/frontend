@@ -41,16 +41,16 @@ const info = document.querySelector('#info')
 nextButton.addEventListener('click', showNextReview)
 prevButton.addEventListener('click', showPrevReview)
 
-function showNextReview() {
-  if (currentReview > reviews.length) {
+function showNextReview(e) {
+  if (currentReview >= reviews.length) {
     return
   }
   currentReview += 1
   updateUI(currentReview)
 }
 
-function showPrevReview() {
-  if (currentReview < 1) {
+function showPrevReview(e) {
+  if (currentReview <= 1) {
     return
   }
   currentReview -= 1
