@@ -1,0 +1,22 @@
+{
+  "folders": [
+	{
+		"path": "../../../../../.."
+	},
+	{
+		"path": "../../../../../../javascript/JavascriptPro"
+	},
+	{
+		"path": "../../../../../../../algorithms-and-data-structures"
+	},
+	{
+		"path": "../../../../../../javascript/UI_Project"
+	},
+	{
+		"path": "../../.."
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "frontend"
+  }
+}
