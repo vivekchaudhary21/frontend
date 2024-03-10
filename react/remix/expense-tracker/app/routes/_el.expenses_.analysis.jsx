@@ -1,5 +1,3 @@
-import expensesStyles from '~/styles/expenses.css'
-
 const DUMMY_EXPENSES = [
   {
     id: 'e1',
@@ -25,8 +23,4 @@ export default function ExpensesAnalysisPage() {
       <ExpenseStatistics expenses={DUMMY_EXPENSES} />
     </main>
   )
-}
-
-export function links() {
-  return [{ rel: 'stylesheet', href: expensesStyles }]
 }
