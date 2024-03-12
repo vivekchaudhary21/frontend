@@ -1,4 +1,6 @@
-import { useNavigate } from '@remix-run/react'
+import { redirect, useNavigate } from '@remix-run/react'
+import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 
 import ExpenseForm from '~/components/expenses/ExpenseForm'
 import Modal from '~/components/util/Modal'
@@ -15,4 +17,28 @@ export default function AddExpensesPage() {
       <ExpenseForm />
     </Modal>
   )
+}
+
+export async function action({ request }) {
+  const formData = await request.formData()
+  const title = String(formData.get('title'))
+  const amount = Number(formData.get('amount'))
+  const date = new Date(formData.get('date'))
+
+  // validations
+  if (amount < 0) {
+    return {
+      amount: 'Amount should be greater than 0',
+    }
+  }
+
+  // make a post call to update expenses
+  axios.post('http://localhost:4000/expenses', {
+    id: uuidv4(),
+    title,
+    amount,
+    date,
+    dateAdded: new Date(),
+  })
+  return redirect('..')
 }

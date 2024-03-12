@@ -1,26 +1,13 @@
-import { Link, Outlet } from '@remix-run/react'
+import { Link, Outlet, json, useLoaderData } from '@remix-run/react'
 import { FaPlus, FaDownload } from 'react-icons/fa'
+import axios from 'axios'
 
 import ExpensesHeader from '~/components/navigation/ExpensesHeader'
 import ExpensesList from '~/components/expenses/ExpensesList'
 import expensesStyles from '~/styles/expenses.css'
 
-const DUMMY_EXPENSES = [
-  {
-    id: 'e1',
-    title: 'First Expense',
-    amount: 12.99,
-    date: new Date().toISOString(),
-  },
-  {
-    id: 'e2',
-    title: 'Second Expense',
-    amount: 16.99,
-    date: new Date().toISOString(),
-  },
-]
-
 export default function ExpensesLayout() {
+  const expensesData = useLoaderData()
   return (
     <>
       <ExpensesHeader />
@@ -36,10 +23,15 @@ export default function ExpensesLayout() {
             <span>Load Raw Data</span>
           </a>
         </section>
-        <ExpensesList expenses={DUMMY_EXPENSES} />
+        <ExpensesList expenses={expensesData} />
       </main>
     </>
   )
+}
+
+export async function loader() {
+  const { data } = await axios.get('http://localhost:4000/expenses')
+  return json(data)
 }
 
 export function links() {
