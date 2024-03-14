@@ -6,10 +6,10 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev --manual",
-    "server": "json-server --watch --port=4000 data/db.json",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/index.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "dev:server": "remix dev --manual & json-server --watch --port=4000 data/db.json"
   },
   "dependencies": {
     "@remix-run/css-bundle": "^2.8.0",

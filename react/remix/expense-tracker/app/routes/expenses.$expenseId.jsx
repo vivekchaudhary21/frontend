@@ -49,3 +49,17 @@ export async function action({ request, params }) {
 
   return redirect('..')
 }
+
+export function meta({ matches, params }) {
+  const expense = matches
+    .find((match) => match.id === 'routes/expenses')
+    .data.find((rec) => rec.id === params.expenseId)
+
+  return [
+    {
+      charset: 'utf-8',
+      title: `Edit Expense - ${expense.title}`,
+      viewport: 'width=device-width,initial-scale=1',
+    },
+  ]
+}

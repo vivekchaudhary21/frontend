@@ -6,8 +6,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
+  isRouteErrorResponse,
+  Link,
 } from '@remix-run/react'
 
+import Error from '~/components/util/Error'
 import sharedStyles from '~/styles/shared.css'
 
 export function meta() {
@@ -54,3 +58,42 @@ export const links = () => [
     ? [{ rel: 'stylesheet', href: cssBundleHref }]
     : [{ rel: 'stylesheet', href: sharedStyles }]),
 ]
+
+const ErrorDocument = ({ children }) => {
+  return (
+    <html lang="en">
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body style={{ paddingTop: '30vh' }}>
+        {children}
+        <Scripts />
+      </body>
+    </html>
+  )
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <ErrorDocument>
+        <Error title={error.data}>
+          <p>Status: {error.status}</p>
+          <Link to="/">Back to safety</Link>
+        </Error>
+      </ErrorDocument>
+    )
+  }
+
+  return (
+    <ErrorDocument>
+      <Error title={error.message}>
+        <Link to="/">Back to safety</Link>
+      </Error>
+    </ErrorDocument>
+  )
+}

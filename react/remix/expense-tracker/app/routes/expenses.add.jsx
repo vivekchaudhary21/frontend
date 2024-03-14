@@ -42,3 +42,13 @@ export async function action({ request }) {
   })
   return redirect('..')
 }
+
+export function meta() {
+  return [
+    {
+      charset: 'utf-8',
+      title: 'Add an expense',
+      viewport: 'width=device-width,initial-scale=1',
+    },
+  ]
+}

@@ -1,4 +1,4 @@
-import { Link, Outlet, json, useLoaderData } from '@remix-run/react'
+import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { FaPlus, FaDownload } from 'react-icons/fa'
 import axios from 'axios'
 
@@ -30,10 +30,26 @@ export default function ExpensesLayout() {
 }
 
 export async function loader() {
-  const { data } = await axios.get('http://localhost:4000/expenses')
-  return json(data)
+  try {
+    const { data } = await axios.get('http://localhost:4000/expenses')
+    return data.sort((a, b) => (a.dateAdded - b.dateAdded ? 1 : -1))
+  } catch (error) {
+    throw new Response('Error while fetching expenses', {
+      status: 500,
+    })
+  }
 }
 
 export function links() {
   return [{ rel: 'stylesheet', href: expensesStyles }]
+}
+
+export function meta() {
+  return [
+    {
+      charset: 'utf-8',
+      title: 'Your expenses',
+      viewport: 'width=device-width,initial-scale=1',
+    },
+  ]
 }

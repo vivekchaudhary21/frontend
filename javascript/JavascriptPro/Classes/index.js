@@ -136,74 +136,213 @@
 //   console.log(value)
 // }
 
-const button = document.querySelector('.click')
+// const button = document.querySelector('.click')
 
-const conan = {
-  name: 'Conan',
-  talk() {
-    console.log(`${this.name} is talking`)
-  },
+// const conan = {
+//   name: 'Conan',
+//   talk() {
+//     console.log(`${this.name} is talking`)
+//   },
+// }
+
+// const talk = conan.talk.bind(conan)
+// // const talk = () => conan.talk.call(conan)
+
+// button.addEventListener('click', talk)
+
+// class Counter {
+//   constructor(startingNum, incrementAmount = 1) {
+//     this.count = startingNum
+//     this.inc = incrementAmount
+//   }
+
+//   // startPrintingCounter() {
+//   //   const that = this
+//   //   setInterval(function () {
+//   //     console.log(that.count)
+//   //     that.count += that.inc
+//   //   }, 1000)
+//   // }
+
+//   // startPrintingCounter() {
+//   //   setInterval(() => {
+//   //     console.log(this.count)
+//   //     this.count += this.inc
+//   //   }, 1000)
+//   // }
+
+//   startPrintingCounter() {
+//     setInterval(
+//       function () {
+//         console.log(this.count)
+//         this.count += this.inc
+//       }.bind(this),
+//       1000
+//     )
+//   }
+// }
+
+// const c = new Counter(2, 2)
+// // c.startPrintingCounter()
+
+// class Timer {
+//   constructor() {
+//     this.tick = 0
+//     this.timerId = null
+//   }
+
+//   start() {
+//     this.timerId = setInterval(
+//       function () {
+//         this.tick += 1
+//         console.log(this.tick)
+//         if (this.tick === 5) {
+//           clearInterval(this.timerId)
+//         }
+//       }.bind(this),
+//       1000
+//     )
+//   }
+// }
+
+// const t = new Timer()
+// t.start()
+
+// Promises
+
+const promise1 = () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => resolve(21), 1000)
+  })
+
+const promise2 = (val) =>
+  new Promise((resolve) => {
+    setTimeout(() => resolve(21 + val), 1000)
+  })
+
+// promise1()
+//   .then((val) => {
+//     promise2(val).then((data) => {
+//       console.log('final val', data)
+//     })
+//   })
+//   .catch((err) => console.log('err', err))
+
+// promise1()
+//   .then((val) => val)
+//   .then((val) => promise2(val).then((data) => data))
+//   .then((data) => console.log('final data', data))
+//   .catch((err) => console.log('err', err))
+
+// promise
+//   .then((val) => {
+//     console.log(val)
+//   })
+//   .catch((err) => {
+//     console.log(err)
+//   })
+
+// async function somePromiseFunc() {
+//   try {
+//     const value = await promise1()
+//     const data = await promise2(value)
+//     console.log('async', data)
+//   } catch (error) {
+//     console.log('err', err)
+//   }
+// }
+
+// somePromiseFunc()
+
+// console.log('hello sir, fimme the value')
+
+//pokemon api calls
+
+const api = 'https://pokeapi.co./api/v2/pokemon'
+// fetch(api + '/1')
+//   .then((response) => response.json())
+//   .then((data) => pokemon.push(data.name))
+//   .then(() => fetch(api + '/2'))
+//   .then((response) => response.json())
+//   .then((data) => {
+//     pokemon.push(data.name)
+//     console.log(pokemon)
+//   })
+//   .catch((err) => console.log('Catching error', err))
+
+function pokemonNames() {
+  const pokemon = []
+  for (let i = 1; i <= 4; i++) {
+    fetch(`${api}/${i}`)
+      .then((response) => response.json())
+      .then((data) => {
+        pokemon.push(data.name)
+        return pokemon
+      })
+      .then((pokemon) => console.log(pokemon))
+      .catch((err) => console.log('Catching error', err))
+  }
+}
+// pokemonNames()
+
+async function getPokemon() {
+  const pokemonAsync = []
+  for (let i = 1; i <= 4; i++) {
+    const res = await fetch(`${api}/${i}`)
+    const data = await res.json()
+    pokemonAsync.push(data.name)
+  }
+  console.log(pokemonAsync)
 }
 
-const talk = conan.talk.bind(conan)
-// const talk = () => conan.talk.call(conan)
+// getPokemon()
 
-button.addEventListener('click', talk)
-
-class Counter {
-  constructor(startingNum, incrementAmount = 1) {
-    this.count = startingNum
-    this.inc = incrementAmount
+const asyncIterator = (async function* () {
+  for (let i = 1; i <= 20; i++) {
+    const res = await fetch(`${api}/${i}`)
+    const data = await res.json()
+    yield data.name
   }
+})()
 
-  // startPrintingCounter() {
-  //   const that = this
-  //   setInterval(function () {
-  //     console.log(that.count)
-  //     that.count += that.inc
-  //   }, 1000)
-  // }
+const asyncIteratorFunc = async () => {
+  const pokemon = []
+  for await (const value of asyncIterator) {
+    pokemon.push(value)
+  }
+  console.log(pokemon)
+}
 
-  // startPrintingCounter() {
-  //   setInterval(() => {
-  //     console.log(this.count)
-  //     this.count += this.inc
-  //   }, 1000)
-  // }
+asyncIteratorFunc()
 
-  startPrintingCounter() {
-    setInterval(
-      function () {
-        console.log(this.count)
-        this.count += this.inc
-      }.bind(this),
-      1000
-    )
+const someIterator = (function* () {
+  for (let i = 0; i < 10; i++) {
+    yield i
+  }
+})()
+
+const useSomeIterator = () => {
+  for (const value of someIterator) {
+    if (value === 6) {
+      break
+    }
+    console.log(value)
   }
 }
 
-const c = new Counter(2, 2)
-// c.startPrintingCounter()
+// useSomeIterator()
 
-class Timer {
-  constructor() {
-    this.tick = 0
-    this.timerId = null
-  }
-
-  start() {
-    this.timerId = setInterval(
-      function () {
-        this.tick += 1
-        console.log(this.tick)
-        if (this.tick === 5) {
-          clearInterval(this.timerId)
-        }
-      }.bind(this),
-      1000
-    )
-  }
+function* numberIerator() {
+  yield 1
+  yield 2
 }
 
-const t = new Timer()
-t.start()
+const numItr = numberIerator()
+const numItr1 = numberIerator()
+
+console.log('cl', numItr.next().value)
+console.log('cl', numItr.next().value)
+
+for (const value of numItr1) {
+  console.log('hello111', value)
+}
