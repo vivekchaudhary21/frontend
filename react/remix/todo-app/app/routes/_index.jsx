@@ -9,7 +9,6 @@ import styles from '~/styles/main.css'
 export default function Index() {
   return (
     <div className="container">
-      <h1>Welcome to Todos App</h1>
       <TodoInput />
       <TodoList />
     </div>

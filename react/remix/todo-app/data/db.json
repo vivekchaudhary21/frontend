@@ -1,32 +1,16 @@
 {
   "todos": [
     {
-      "id": "a5f7aa05-27bd-4218-8bfa-7b164b73088f",
+      "id": "f0f0647e-b1cc-4242-931f-dcf25837c11c",
       "todo": "Rent a car"
     },
     {
-      "id": "47f6d514-9552-45ac-bf75-e23125d0d49a",
-      "todo": "Pay rent"
+      "id": "be2180a6-2fa8-4f8b-aae5-547ffba0ead6",
+      "todo": "Buy groceries"
     },
     {
-      "id": "fbebced7-b112-4c1f-9d5c-4e6a7958d954",
-      "todo": "Grocery"
-    },
-    {
-      "id": "3ae7ff24-e4bf-43f8-932b-dd02fc29840b",
-      "todo": "Buy a ball"
-    },
-    {
-      "id": "1927a7af-db77-40cb-a66d-6de7348a0291",
-      "todo": "Get rent from a guy"
-    },
-    {
-      "id": "03902dfd-a240-4c90-96aa-3bd76bdb4e53",
-      "todo": "Supplies"
-    },
-    {
-      "id": "db3cfadb-eea7-496f-96cf-365a92e60b56",
-      "todo": "Cricket bat"
+      "id": "7cd35ef7-b2a2-4edf-93d9-01f12d214f28",
+      "todo": "Play cricket"
     }
   ]
 }

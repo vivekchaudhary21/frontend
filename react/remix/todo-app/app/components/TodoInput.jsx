@@ -8,7 +8,7 @@ export default function TodoInput() {
 
   useEffect(() => {
     inputRef.current.value = ''
-  }, [navigation.state])
+  }, [navigation])
 
   return (
     <Form className="form" method="post">
