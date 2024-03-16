@@ -1,0 +1,17 @@
+h1 {
+  text-align: center;
+}
+
+.form {
+  padding: 1rem;
+  color: var(--color-gray-400);
+  text-align: center;
+}
+
+.form input {
+  display: inline-block;
+  width: 50%;
+}
+.form button {
+  width: 50%;
+}
