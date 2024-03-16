@@ -1,9 +1,23 @@
-import { Link, useLoaderData, Form, redirect } from '@remix-run/react'
+import {
+  Link,
+  useLoaderData,
+  Form,
+  redirect,
+  json,
+  useRouteError,
+} from '@remix-run/react'
+import { useEffect, useRef } from 'react'
 import axios from 'axios'
 import styles from '~/styles/edit-todo.css'
 
 export default function EditTodo() {
   const { todo } = useLoaderData()
+  const inputRef = useRef()
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [])
+
   return (
     <div className="edit-form">
       <Form method="patch" className="form">
@@ -11,7 +25,12 @@ export default function EditTodo() {
           <label htmlFor="exampleInputEmail1" className="form-label">
             Your todo
           </label>
-          <input className="form-control" defaultValue={todo} name="todo" />
+          <input
+            ref={inputRef}
+            className="form-control"
+            defaultValue={todo}
+            name="todo"
+          />
         </div>
 
         <button className="btn btn-primary me-3">Submit</button>
@@ -24,8 +43,15 @@ export default function EditTodo() {
 }
 
 export async function loader({ params }) {
-  const { data } = await axios.get(`http://localhost:4000/todos/${params.id}`)
-  return data
+  try {
+    const { data } = await axios.get(`http://localhost:4000/todos/${params.id}`)
+    return data
+  } catch (error) {
+    throw json(
+      { message: `There is no todo with this id ${params.id}` },
+      { status: 401 }
+    )
+  }
 }
 
 export async function action({ request, params }) {
@@ -47,4 +73,21 @@ export function links() {
       rel: 'stylesheet',
     },
   ]
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError()
+  return (
+    <div className="container">
+      <div className="card">
+        <div className="card-body">
+          <h5 className="card-title">{Error}</h5>
+          <h6 className="card-subtitle mb-2 text-body-secondary">
+            {error.status}
+          </h6>
+          <p className="card-text">{error.data.message}</p>
+        </div>
+      </div>
+    </div>
+  )
 }

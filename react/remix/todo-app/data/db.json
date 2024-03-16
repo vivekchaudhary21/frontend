@@ -1,14 +1,6 @@
 {
   "todos": [
     {
-      "id": "f0f0647e-b1cc-4242-931f-dcf25837c11c",
-      "todo": "Rent a car"
-    },
-    {
-      "id": "be2180a6-2fa8-4f8b-aae5-547ffba0ead6",
-      "todo": "Buy groceries"
-    },
-    {
       "id": "7cd35ef7-b2a2-4edf-93d9-01f12d214f28",
       "todo": "Play cricket"
     }

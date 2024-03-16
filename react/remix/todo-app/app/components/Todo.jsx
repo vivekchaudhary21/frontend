@@ -6,7 +6,7 @@ function Todo({ todo }) {
   const fetcher = useFetcher()
 
   const handleEdit = () => {
-    navigate(`/todo/${todo.id}`)
+    navigate(`/todos/${todo.id}`)
   }
 
   const handleDelete = () => {
@@ -14,7 +14,7 @@ function Todo({ todo }) {
       { id: todo },
       {
         method: 'delete',
-        action: `/todo/${todo.id}`,
+        action: `/todos/${todo.id}`,
       }
     )
   }

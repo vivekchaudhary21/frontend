@@ -7,6 +7,10 @@ export default function TodoInput() {
   const inputRef = useRef()
 
   useEffect(() => {
+    inputRef.current.focus()
+  }, [])
+
+  useEffect(() => {
     inputRef.current.value = ''
   }, [navigation])
 
