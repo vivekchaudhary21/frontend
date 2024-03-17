@@ -15,3 +15,11 @@ h1 {
 .form button {
   width: 50%;
 }
+
+.delete-all {
+  text-align: center;
+}
+
+.delete-all button {
+  width: 48%;
+}

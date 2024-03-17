@@ -5,6 +5,7 @@ import {
   redirect,
   json,
   useRouteError,
+  useNavigation,
 } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 import axios from 'axios'
@@ -12,7 +13,13 @@ import styles from '~/styles/edit-todo.css'
 
 export default function EditTodo() {
   const { todo } = useLoaderData()
+  const navigation = useNavigation()
   const inputRef = useRef()
+
+  const isEditing =
+    navigation.state !== 'idle' && navigation.formMethod === 'PATCH'
+
+  console.log(navigation)
 
   useEffect(() => {
     inputRef.current.focus()
@@ -33,7 +40,9 @@ export default function EditTodo() {
           />
         </div>
 
-        <button className="btn btn-primary me-3">Submit</button>
+        <button disabled={isEditing} className="btn btn-primary me-3 px-4">
+          {isEditing ? 'Editing' : 'Edit'}
+        </button>
         <Link to="/">
           <button className="btn btn-primary">Cancel</button>
         </Link>

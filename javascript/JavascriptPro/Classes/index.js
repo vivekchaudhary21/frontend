@@ -210,15 +210,15 @@
 
 // Promises
 
-const promise1 = () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => resolve(21), 1000)
-  })
+// const promise1 = () =>
+//   new Promise((resolve, reject) => {
+//     setTimeout(() => resolve(21), 1000)
+//   })
 
-const promise2 = (val) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(21 + val), 1000)
-  })
+// const promise2 = (val) =>
+//   new Promise((resolve) => {
+//     setTimeout(() => resolve(21 + val), 1000)
+//   })
 
 // promise1()
 //   .then((val) => {
@@ -270,79 +270,98 @@ const api = 'https://pokeapi.co./api/v2/pokemon'
 //   })
 //   .catch((err) => console.log('Catching error', err))
 
-function pokemonNames() {
-  const pokemon = []
-  for (let i = 1; i <= 4; i++) {
-    fetch(`${api}/${i}`)
-      .then((response) => response.json())
-      .then((data) => {
-        pokemon.push(data.name)
-        return pokemon
-      })
-      .then((pokemon) => console.log(pokemon))
-      .catch((err) => console.log('Catching error', err))
-  }
-}
+// function pokemonNames() {
+//   const pokemon = []
+//   for (let i = 1; i <= 4; i++) {
+//     fetch(`${api}/${i}`)
+//       .then((response) => response.json())
+//       .then((data) => {
+//         pokemon.push(data.name)
+//         return pokemon
+//       })
+//       .then((pokemon) => console.log(pokemon))
+//       .catch((err) => console.log('Catching error', err))
+//   }
+// }
 // pokemonNames()
 
-async function getPokemon() {
-  const pokemonAsync = []
-  for (let i = 1; i <= 4; i++) {
-    const res = await fetch(`${api}/${i}`)
-    const data = await res.json()
-    pokemonAsync.push(data.name)
-  }
-  console.log(pokemonAsync)
-}
+// async function getPokemon() {
+//   const pokemonAsync = []
+//   for (let i = 1; i <= 4; i++) {
+//     const res = await fetch(`${api}/${i}`)
+//     const data = await res.json()
+//     pokemonAsync.push(data.name)
+//   }
+//   console.log(pokemonAsync)
+// }
 
-// getPokemon()
+// // getPokemon()
 
-const asyncIterator = (async function* () {
-  for (let i = 1; i <= 20; i++) {
-    const res = await fetch(`${api}/${i}`)
-    const data = await res.json()
-    yield data.name
-  }
-})()
+// const asyncIterator = (async function* () {
+//   for (let i = 1; i <= 20; i++) {
+//     const res = await fetch(`${api}/${i}`)
+//     const data = await res.json()
+//     yield data.name
+//   }
+// })()
 
-const asyncIteratorFunc = async () => {
-  const pokemon = []
-  for await (const value of asyncIterator) {
-    pokemon.push(value)
-  }
-  console.log(pokemon)
-}
+// const asyncIteratorFunc = async () => {
+//   const pokemon = []
+//   for await (const value of asyncIterator) {
+//     pokemon.push(value)
+//   }
+//   console.log(pokemon)
+// }
 
-asyncIteratorFunc()
+// asyncIteratorFunc()
 
-const someIterator = (function* () {
-  for (let i = 0; i < 10; i++) {
-    yield i
-  }
-})()
+// const someIterator = (function* () {
+//   for (let i = 0; i < 10; i++) {
+//     yield i
+//   }
+// })()
 
-const useSomeIterator = () => {
-  for (const value of someIterator) {
-    if (value === 6) {
-      break
-    }
-    console.log(value)
-  }
-}
+// const useSomeIterator = () => {
+//   for (const value of someIterator) {
+//     if (value === 6) {
+//       break
+//     }
+//     console.log(value)
+//   }
+// }
 
 // useSomeIterator()
 
-function* numberIerator() {
-  yield 1
-  yield 2
+// function* numberIerator() {
+//   yield 1
+//   yield 2
+// }
+
+// const numItr = numberIerator()
+// const numItr1 = numberIerator()
+
+// console.log('cl', numItr.next().value)
+// console.log('cl', numItr.next().value)
+
+// for (const value of numItr1) {
+//   console.log('hello111', value)
+// }
+
+async function* pokemonIteratoer(total) {
+  for (let i = 1; i <= total; i++) {
+    const response = await fetch(`${api}/${i}`)
+    const pokemon = await response.json()
+    yield pokemon.name
+  }
 }
 
-const numItr = numberIerator()
-const numItr1 = numberIerator()
-
-console.log('cl', numItr.next().value)
-console.log('cl', numItr.next().value)
-
-for (const value of numItr1) {
-  console.log('hello111', value)
+async function getPokemons(pokemonIteraraor) {
+  const pokemons = []
+  for await (const pokemon of pokemonIteraraor) {
+    pokemons.push(pokemon)
+  }
+  console.log(pokemons)
 }
+
+const tenPokemon = pokemonIteratoer(10)
+getPokemons(tenPokemon)

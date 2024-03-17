@@ -21,17 +21,20 @@ export async function loader() {
 }
 
 export async function action({ request }) {
-  const formData = await request.formData()
-  const { todo } = Object.fromEntries(formData)
-  const newTodo = {
-    id: createId(),
-    todo,
-  }
+  console.log(request.method)
+  if (request.method === 'POST') {
+    const formData = await request.formData()
+    const { todo } = Object.fromEntries(formData)
+    const newTodo = {
+      id: createId(),
+      todo,
+    }
 
-  try {
-    await axios.post('http://localhost:4000/todos', newTodo)
-  } catch (error) {
-    console.log(error)
+    try {
+      await axios.post('http://localhost:4000/todos', newTodo)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return redirect('/')

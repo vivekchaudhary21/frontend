@@ -1,8 +1,16 @@
 {
   "todos": [
     {
-      "id": "7cd35ef7-b2a2-4edf-93d9-01f12d214f28",
-      "todo": "Play cricket"
+      "id": "d940849f-664f-4270-aab8-2ea0ca552beb",
+      "todo": "Learn algorithms and data structures"
+    },
+    {
+      "id": "9e6d6f5d-e520-4cb9-9336-48e527c47032",
+      "todo": "Learn React and Javascript"
+    },
+    {
+      "id": "bc94ddb5-0a40-4dbb-ad7a-b13cc32a96bc",
+      "todo": "Read Remix Docs"
     }
   ]
 }

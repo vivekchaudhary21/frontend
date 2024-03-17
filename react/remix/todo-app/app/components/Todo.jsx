@@ -3,7 +3,9 @@ import { useNavigate, useFetcher } from '@remix-run/react'
 
 function Todo({ todo }) {
   const navigate = useNavigate()
+
   const fetcher = useFetcher()
+  const isDeleting = fetcher.state !== 'idle'
 
   const handleEdit = () => {
     navigate(`/todos/${todo.id}`)
@@ -37,10 +39,11 @@ function Todo({ todo }) {
             </button>
             <button
               type="button"
+              disabled={isDeleting}
               className="btn btn-danger btn-sm ms-3 px-3"
               onClick={handleDelete}
             >
-              Delete
+              {isDeleting ? 'Deleting' : 'Delete'}
             </button>
           </div>
         </div>
