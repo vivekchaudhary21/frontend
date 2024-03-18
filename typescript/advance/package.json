@@ -1,7 +1,6 @@
 {
   "name": "advance",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -14,5 +13,10 @@
   "dependencies": {
     "@types/node": "^20.8.10",
     "typescript": "^5.2.2"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {},
+  "description": ""
 }

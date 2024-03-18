@@ -24,7 +24,7 @@ export function introduce(salutation: string, ...names: string[]): string {
   return `${salutation} ${names.join(' ')}`
 }
 
-export function getName(user: { first: string; last: string }): string {
+export function getName(user: { first?: string; last?: string }): string {
   return `${user?.first ?? 'first'} ${user?.last ?? 'last'}`
 }
 
@@ -40,7 +40,7 @@ export function mutate(array: number[], mutateFunc: (v: number) => number) {
   return array.map(mutateFunc)
 }
 
-export function closureFunc(param1: string): (p: string) => void {
+export function closureFunc(param1: string): (p: string) => string {
   return function (param2: string): string {
     return `This is a closure function passed ${param1} and ${param2} as arguments`
   }
@@ -83,6 +83,10 @@ export function parseCoordinate(input: Coordinate | number | string, input2?: nu
   return coords
 }
 
+/***************************** Function types *********************************/
+let idGenerator: (chars: string, nums: number) => string
+idGenerator = (name: string, id: number) => name + id
+
 /***************************************************************************/
 /***************************** Challenge 1 *********************************/
 /***************************************************************************/
@@ -110,3 +114,6 @@ export function findHouses(input: string | House[], filter?: (house: House) => b
     ...house
   }))
 }
+
+
+
