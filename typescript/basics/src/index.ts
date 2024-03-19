@@ -1,12 +1,13 @@
 import * as basicTypes from './basic-types'
 import * as functionTypes from './functions'
 import * as tuplesTypes from './tuples'
+import * as interfaces from './interfaces'
 import * as generics from './generics'
 import houses from './houses.json'
 
 // basicTypes.myRETest // /foo/
 
-// // Function
+/******************* Function ********************/
 // const name1 = functionTypes.getName({ first: 'Foo', last: 'Bar' }) // Foo Bar
 // console.log(name1)
 // const name2 = functionTypes.getName({  }) // first last
@@ -26,13 +27,17 @@ import houses from './houses.json'
 // functionTypes.parseCoordinate('x:12,y:22')
 // tuplesTypes.add3dCoordinate([1, 2, 3], [1, 2, 3])
 
-// // Tuples
+/******************* Tuples *******************/
 // const [stringGetter, stringSetter] = tuplesTypes.simpleStringState('first')
 // stringGetter() // first
 // stringSetter('second')
 // stringGetter() // second
 
-// // Generics
+/******************* Interfaces *******************/
+interfaces.flyOverWater(interfaces.bird)
+console.log(interfaces.IDGenerator('Batman', 213))
+
+/******************* Generics *******************/
 // const [stateGetter, stateSetter] = generics.simpleState(10)
 // stateGetter() // 10
 // stateSetter(20)
@@ -53,5 +58,3 @@ import houses from './houses.json'
 // generics.pluck(generics.dogs, 'age') // [12,13]
 // generics.sendEvent('addToCart', { time: 1, user: 'A', quantity: 2, productID: 'B' }) // [ 'addToCart', { time: 1, user: 'A', quantity: 2, productID: 'B' } ]
 // generics.sendEvent('checkout', { time: 1, user: 'A' }) // [ 'checkout', { time: 1, user: 'A' } ]
-
- 

@@ -347,21 +347,68 @@ const api = 'https://pokeapi.co./api/v2/pokemon'
 //   console.log('hello111', value)
 // }
 
-async function* pokemonIteratoer(total) {
-  for (let i = 1; i <= total; i++) {
-    const response = await fetch(`${api}/${i}`)
-    const pokemon = await response.json()
-    yield pokemon.name
-  }
-}
+// async function* pokemonIteratoer(total) {
+//   for (let i = 1; i <= total; i++) {
+//     const response = await fetch(`${api}/${i}`)
+//     const pokemon = await response.json()
+//     yield pokemon.name
+//   }
+// }
 
-async function getPokemons(pokemonIteraraor) {
-  const pokemons = []
-  for await (const pokemon of pokemonIteraraor) {
-    pokemons.push(pokemon)
-  }
-  console.log(pokemons)
-}
+// async function getPokemons(pokemonIteraraor) {
+//   const pokemons = []
+//   for await (const pokemon of pokemonIteraraor) {
+//     pokemons.push(pokemon)
+//   }
+//   console.log(pokemons)
+// }
 
-const tenPokemon = pokemonIteratoer(10)
-getPokemons(tenPokemon)
+// const tenPokemon = pokemonIteratoer(10)
+// getPokemons(tenPokemon)
+
+// const getThreePokemonAsyncWay = async () => {
+//   const api1 = await fetch('https://pokeapi.co./api/v2/pokemon/1')
+//     .then((res) => res.json())
+//     .then((data) => data)
+//   const api2 = fetch('https://pokeapi.co./api/v2/pokemon/2')
+//     .then((res) => res.json())
+//     .then((data) => data)
+//   const api3 = fetch('https://pokeapi.co./api/v2/pokemon/3')
+//     .then((res) => res.json())
+//     .then((data) => data)
+//   const response = await Promise.all([api1, api2, api3])
+//   console.log(response)
+// }
+
+// getThreePokemonAsyncWay()
+
+// fetch('https://pokeapi.co./api/v2/pokemon/1')
+//   .then((res) => res.json())
+//   .then((data) => console.log('1', data))
+
+// fetch('https://pokeapi.co./api/v2/pokemon/2')
+//   .then((res) => res.json())
+//   .then((data) => console.log('2', data))i
+
+// fetch('https://pokeapi.co./api/v2/pokemon/3')
+//   .then((res) => res.json())
+//   .then((data) => console.log('3', data))
+
+// const getPokemon1 = async () => {
+//   const response = await fetch('https://pokeapi.co./api/v2/pokemon/1')
+//   console.log(await response.json())
+// }
+
+// const getPokemon2 = async () => {
+//   const response = await fetch('https://pokeapi.co./api/v2/pokemon/2')
+//   console.log(await response.json())
+// }
+
+// const getPokemon3 = async () => {
+//   const response = await fetch('https://pokeapi.co./api/v2/pokemon/3')
+//   console.log(await response.json())
+// }
+
+// getPokemon1()
+// getPokemon2()
+// getPokemon3()
