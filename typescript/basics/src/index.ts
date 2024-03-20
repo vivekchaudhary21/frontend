@@ -33,9 +33,7 @@ import houses from './houses.json'
 // stringSetter('second')
 // stringGetter() // second
 
-/******************* Interfaces *******************/
-interfaces.flyOverWater(interfaces.bird)
-console.log(interfaces.IDGenerator('Batman', 213))
+interfaces // undo comment to run interfaces file
 
 /******************* Generics *******************/
 // const [stateGetter, stateSetter] = generics.simpleState(10)
