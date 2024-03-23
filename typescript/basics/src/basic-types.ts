@@ -1,4 +1,5 @@
-const log = console.log;
+console.log("******************************* basic type ************************")
+
 
 export const myValue: string = 'foo';
 export let myVariable: number = 1;
@@ -29,5 +30,5 @@ export const data: Record<number, string> = {
 
 data[5] = 'joe';
 
-myValues.forEach((a) => a * 2);
+myValues.forEach((a) => console.log(a * 2))
 export const multipliedValues = myValues.map((a) => a * 10);

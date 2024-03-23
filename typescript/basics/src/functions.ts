@@ -1,3 +1,7 @@
+import houses from './houses.json'
+
+console.log("******************* Function ********************")
+
 /***************************************************************************/
 /********************************* Functions *******************************/
 /***************************************************************************/
@@ -117,3 +121,21 @@ export function findHouses(input: string | House[], filter?: (house: House) => b
 
 
 
+
+const name1 = getName({ first: 'Foo', last: 'Bar' }) // Foo Bar
+console.log(name1)
+const name2 = getName({  }) // first last
+console.log(name2)
+printToFile('great', console.log) //great
+mutate([1, 2, 3], v => v * 10) // [10,20,30]
+const outer = closureFunc('first')
+const second = outer('second') // This is a closure function passed first second as arguments
+console.log(second)
+console.log(findHouses(JSON.stringify(houses)))
+console.log(findHouses(JSON.stringify(houses), ({ name }) => name === 'Atreides'))
+console.log(findHouses(houses))
+console.log(findHouses(houses, ({ name }) => name === 'Harkonnen'))
+naturalNumbersSum(5)
+parseCoordinate({ x: 2, y: 2 })
+parseCoordinate(3, 2)
+parseCoordinate('x:12,y:22')

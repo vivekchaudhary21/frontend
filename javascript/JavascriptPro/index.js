@@ -394,21 +394,64 @@ const api = 'https://pokeapi.co./api/v2/pokemon'
 //   .then((res) => res.json())
 //   .then((data) => console.log('3', data))
 
-// const getPokemon1 = async () => {
-//   const response = await fetch('https://pokeapi.co./api/v2/pokemon/1')
-//   console.log(await response.json())
-// }
+const getPokemon1 = async () => fetch('https://pokeapi.co./api/v2/pokemon/1')
 
-// const getPokemon2 = async () => {
-//   const response = await fetch('https://pokeapi.co./api/v2/pokemon/2')
-//   console.log(await response.json())
-// }
+const getPokemon2 = async () => fetch('https://pokeapi.co./api/v2/pokemon/2')
 
-// const getPokemon3 = async () => {
-//   const response = await fetch('https://pokeapi.co./api/v2/pokemon/3')
-//   console.log(await response.json())
-// }
+const getPokemon3 = async () =>
+  await fetch('https://pokeapi.co./api/v2/pokemon/3')
 
-// getPokemon1()
-// getPokemon2()
-// getPokemon3()
+const getPokemons = async (data) => {
+  const pokemons = []
+  for (let pokemondata of data) {
+    const pokemon = await pokemondata.json()
+    pokemons.push(pokemon.name)
+  }
+  return pokemons
+}
+
+const getPokemonsAllSettled = async (data) => {
+  const pokemons = []
+  for (let pokemondata of data) {
+    if (pokemondata.status === 'fulfilled') {
+      const pokemon = await pokemondata.value.json()
+      pokemons.push(pokemon.name)
+    }
+  }
+  return pokemons
+}
+
+const getAllPokemon = async () => {
+  try {
+    const data = await Promise.all([
+      getPokemon1(),
+      getPokemon2(),
+      getPokemon3(),
+    ])
+    const pokemons = await getPokemons(data)
+    console.log('All', pokemons)
+  } catch (error) {
+    console.log(error.message)
+  }
+
+  try {
+    const data1 = await Promise.allSettled([
+      getPokemon1(),
+      getPokemon2(),
+      getPokemon3(),
+    ])
+    const pokemons = await getPokemonsAllSettled(data1)
+    console.log('All settled', pokemons)
+  } catch (error) {
+    console.log(error.message)
+  }
+
+  const data2 = await Promise.race([
+    getPokemon1(),
+    getPokemon2(),
+    getPokemon3(),
+  ])
+  console.log('Race', data2)
+}
+
+// getAllPokemon()

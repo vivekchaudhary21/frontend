@@ -1,3 +1,5 @@
+console.log("******************* Tuples ********************")
+
 /***************************************************************************/
 /*********************************** Tuples ********************************/
 /***************************************************************************/
@@ -21,3 +23,12 @@ export function simpleStringState(intialValue: string): [() => string, (v: strin
     }
   ]
 }
+
+
+
+console.log(add3dCoordinate([1, 2, 3], [1, 2, 3]))
+
+const [stringGetter, stringSetter] = simpleStringState('first')
+console.log(stringGetter()) // first
+console.log(stringSetter('second'))
+console.log(stringGetter()) // second

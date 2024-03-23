@@ -2,6 +2,8 @@
 /********************************** Generics *******************************/
 /***************************************************************************/
 
+console.log("******************* Generics *******************")
+
 export function simpleState<T>(intialValue: T): [() => T, (v: T) => void] {
   let val: T = intialValue
   return [
@@ -94,3 +96,29 @@ export interface EventMap {
 export function sendEvent<Name extends keyof EventMap>(name: Name, data: EventMap[Name]): void {
   console.log([name, data])
 }
+
+
+const [stateGetter, stateSetter] = simpleState(10)
+stateGetter() // 10
+stateSetter(20)
+stateGetter() //20
+
+const [stateGetter2, stateSetter2] = simpleState<string | null>(null)
+stateGetter2() // null
+stateSetter2('string')
+stateGetter2() // string
+
+ranker(pokemon, ({ hp }) => hp)
+const arrOfNum = [1, 2, 3, 4]
+myForEach(arrOfNum, val => val * 2) // [2,4,6,8]
+const arrOfStr = ['a', 'b', 'c', 'd']
+myForEach(arrOfStr, val => val.toUpperCase()) // ["A", "B", "C", "D"]
+myMap(arrOfNum, val => val * 2) // [4,8,12,16]
+pluck(dogs, 'name') // [ 'mimi', 'kitti' ]
+pluck(dogs, 'age') // [12,13]
+sendEvent('addToCart', { time: 1, user: 'A', quantity: 2, productID: 'B' }) // [ 'addToCart', { time: 1, user: 'A', quantity: 2, productID: 'B' } ]
+sendEvent('checkout', { time: 1, user: 'A' }) // [ 'checkout', { time: 1, user: 'A' } ]
+
+
+/*************************** more on generics ******************************/
+
