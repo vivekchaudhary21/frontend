@@ -122,3 +122,71 @@ sendEvent('checkout', { time: 1, user: 'A' }) // [ 'checkout', { time: 1, user: 
 
 /*************************** more on generics ******************************/
 
+// generic array
+
+type Books = {
+  name: string
+  pages: number
+}
+
+const books: Array<Books> = []
+books.push({name: 'Javascript Pro', pages: 213})
+
+const reactBooks = new Array<Books>(5)
+
+// generic funcitons
+
+function logAndReturn<T>(thing: T): T {
+  console.log("thing")
+  return thing
+}
+
+logAndReturn("log this")
+logAndReturn({val: 'log this'})
+
+function filterVal<T>(arr:Array<T>, filter: string | number): Array<T> {
+    return arr.filter(rec => rec !== filter)
+  
+}
+
+const filterNums: Array<number> = filterVal<number>([1,2,3,4,5], 3)
+console.log(filterNums)
+const filterString: Array<string> = filterVal<string>(["a", "b", "c"], "c")
+console.log(filterString)
+
+// generic interfaces
+
+interface Inventory<T> {
+  pages: T,
+  age: T
+}
+
+// classes
+
+interface StorageItem {
+  key: string
+  value: string
+}
+
+class Storage<T extends StorageItem> {
+  constructor(private items: Array<T>) {}
+
+  add(item: T): void {
+    this.items.push(item)
+  }
+
+  getValueAtIndex (index: number) {
+    return this.items[index].value
+  }
+
+  getValueForKey(key: string): string  {
+    return this.items.find(rec => rec.key === key)?.value ?? ''
+  }
+}
+
+const storageItems: Array<StorageItem> = [{key: 'first', value: 'this is the the first value'}, {key: 'second', value: 'this is the the second value'}]
+
+const s1 = new Storage<StorageItem>(storageItems)
+
+console.log(s1.getValueAtIndex(1))
+console.log(s1.getValueForKey("first"))

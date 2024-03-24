@@ -10,6 +10,6 @@ import * as asyncCode from './async'
 // functionTypes
 // tuplesTypes
 // interfaces
-generics
+// generics
 // asyncCode
 

@@ -455,3 +455,39 @@ const getAllPokemon = async () => {
 }
 
 // getAllPokemon()
+console.log('hello there ...')
+
+// create your own promises
+
+const aPromise = (url) =>
+  new Promise((resolve, reject) => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => resolve(data))
+      .catch((error) => reject(error))
+  })
+
+// aPromise('https://pokeapi.co./api/v2/pokemon/1').then((data) =>
+//   console.log(data)
+// )
+
+function wait(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (typeof ms === 'number') {
+        resolve()
+      } else {
+        reject()
+      }
+    }, ms)
+  })
+}
+
+async function demo() {
+  console.log('hi')
+  console.log('after 3 seconds')
+  await wait(3000)
+  console.log('there')
+}
+
+// demo()
