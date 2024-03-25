@@ -4,12 +4,14 @@ import * as tuplesTypes from './tuples'
 import * as interfaces from './interfaces'
 import * as generics from './generics'
 import * as asyncCode from './async'
+import * as decoratorTypes from './decorators'
 
 
-// basicTypes
-// functionTypes
-// tuplesTypes
-// interfaces
-// generics
-// asyncCode
+basicTypes
+functionTypes
+tuplesTypes
+interfaces
+generics
+asyncCode
+decoratorTypes
 

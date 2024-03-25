@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: darkgray;
+}
+
+/* "," selects h1 and h2 */
+h1,
+h2 {
+  background-color: yellowgreen;
+}
+
+/* id takes priority over class */
+#lisitemID {
+  background-color: aqua;
+}
+
+/* " " select listItem class inside list class */
+.list .listItem {
+  background-color: blue;
+}
