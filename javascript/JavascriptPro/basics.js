@@ -394,100 +394,149 @@ const api = 'https://pokeapi.co./api/v2/pokemon'
 //   .then((res) => res.json())
 //   .then((data) => console.log('3', data))
 
-const getPokemon1 = async () => fetch('https://pokeapi.co./api/v2/pokemon/1')
+// const getPokemon1 = async () => fetch('https://pokeapi.co./api/v2/pokemon/1')
 
-const getPokemon2 = async () => fetch('https://pokeapi.co./api/v2/pokemon/2')
+// const getPokemon2 = async () => fetch('https://pokeapi.co./api/v2/pokemon/2')
 
-const getPokemon3 = async () =>
-  await fetch('https://pokeapi.co./api/v2/pokemon/3')
+// const getPokemon3 = async () =>
+//   await fetch('https://pokeapi.co./api/v2/pokemon/3')
 
-const getPokemons = async (data) => {
-  const pokemons = []
-  for (let pokemondata of data) {
-    const pokemon = await pokemondata.json()
-    pokemons.push(pokemon.name)
-  }
-  return pokemons
-}
+// const getPokemons = async (data) => {
+//   const pokemons = []
+//   for (let pokemondata of data) {
+//     const pokemon = await pokemondata.json()
+//     pokemons.push(pokemon.name)
+//   }
+//   return pokemons
+// }
 
-const getPokemonsAllSettled = async (data) => {
-  const pokemons = []
-  for (let pokemondata of data) {
-    if (pokemondata.status === 'fulfilled') {
-      const pokemon = await pokemondata.value.json()
-      pokemons.push(pokemon.name)
-    }
-  }
-  return pokemons
-}
+// const getPokemonsAllSettled = async (data) => {
+//   const pokemons = []
+//   for (let pokemondata of data) {
+//     if (pokemondata.status === 'fulfilled') {
+//       const pokemon = await pokemondata.value.json()
+//       pokemons.push(pokemon.name)
+//     }
+//   }
+//   return pokemons
+// }
 
-const getAllPokemon = async () => {
-  try {
-    const data = await Promise.all([
-      getPokemon1(),
-      getPokemon2(),
-      getPokemon3(),
-    ])
-    const pokemons = await getPokemons(data)
-    console.log('All', pokemons)
-  } catch (error) {
-    console.log(error.message)
-  }
+// const getAllPokemon = async () => {
+//   try {
+//     const data = await Promise.all([
+//       getPokemon1(),
+//       getPokemon2(),
+//       getPokemon3(),
+//     ])
+//     const pokemons = await getPokemons(data)
+//     console.log('All', pokemons)
+//   } catch (error) {
+//     console.log(error.message)
+//   }
 
-  try {
-    const data1 = await Promise.allSettled([
-      getPokemon1(),
-      getPokemon2(),
-      getPokemon3(),
-    ])
-    const pokemons = await getPokemonsAllSettled(data1)
-    console.log('All settled', pokemons)
-  } catch (error) {
-    console.log(error.message)
-  }
+//   try {
+//     const data1 = await Promise.allSettled([
+//       getPokemon1(),
+//       getPokemon2(),
+//       getPokemon3(),
+//     ])
+//     const pokemons = await getPokemonsAllSettled(data1)
+//     console.log('All settled', pokemons)
+//   } catch (error) {
+//     console.log(error.message)
+//   }
 
-  const data2 = await Promise.race([
-    getPokemon1(),
-    getPokemon2(),
-    getPokemon3(),
-  ])
-  console.log('Race', data2)
-}
+//   const data2 = await Promise.race([
+//     getPokemon1(),
+//     getPokemon2(),
+//     getPokemon3(),
+//   ])
+//   console.log('Race', data2)
+// }
 
 // getAllPokemon()
-console.log('hello there ...')
+// console.log('hello there ...')
 
 // create your own promises
 
-const aPromise = (url) =>
-  new Promise((resolve, reject) => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => resolve(data))
-      .catch((error) => reject(error))
-  })
+// const aPromise = (url) =>
+//   new Promise((resolve, reject) => {
+//     fetch(url)
+//       .then((response) => response.json())
+//       .then((data) => resolve(data))
+//       .catch((error) => reject(error))
+//   })
 
 // aPromise('https://pokeapi.co./api/v2/pokemon/1').then((data) =>
 //   console.log(data)
 // )
 
-function wait(ms) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (typeof ms === 'number') {
-        resolve()
-      } else {
-        reject()
-      }
-    }, ms)
-  })
-}
+// function wait(ms) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (typeof ms === 'number') {
+//         resolve()
+//       } else {
+//         reject()
+//       }
+//     }, ms)
+//   })
+// }
 
-async function demo() {
-  console.log('hi')
-  console.log('after 3 seconds')
-  await wait(3000)
-  console.log('there')
-}
+// async function demo() {
+//   console.log('hi')
+//   console.log('after 3 seconds')
+//   await wait(3000)
+//   console.log('there')
+// }
 
 // demo()
+
+// New features
+// optional chaining
+
+// function getPerson() {
+//   const person = {
+//     name: {
+//       fname: 'Foo',
+//     },
+//     address: {
+//       street: '123',
+//       city: 'http',
+//     },
+//   }
+//   return person
+// }
+
+// const person = getPerson()
+
+// console.log(person.name.lname) // undefined
+// // console.log(person.name.lname.name) // error
+// console.log(person.name.lname?.name) // undefined
+
+// numeric sepratoea
+
+// const witoutSeparator = 100000000000000
+// const withSeparator = 1_000_000
+
+// console.log(withSeparator)
+
+// at
+
+// const array = [10, 20, 30, 40]
+// console.log(array.at(3))
+
+// const str =
+//   'lorem ipsum dolor sit amet consectetur, adipisicing lorem elit. Dolor esse autem dolorum in obcaecati at non eveniet quis assumenda,'
+
+// const newStr = str.replace(new RegExp('lorem', 'ig'), 'LOREM')
+// console.log(newStr)
+
+// const newStr1 = str.replaceAll('lorem', 'LOREM')
+// console.log(newStr1)
+
+// logical operator
+
+let loggedInUser = { username: 'vivek' }
+loggedInUser &&= { ...loggedInUser, color: 'black' }
+console.log(loggedInUser)
