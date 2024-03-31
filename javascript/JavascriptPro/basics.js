@@ -537,6 +537,61 @@ const api = 'https://pokeapi.co./api/v2/pokemon'
 
 // logical operator
 
-let loggedInUser = { username: 'vivek' }
-loggedInUser &&= { ...loggedInUser, color: 'black' }
-console.log(loggedInUser)
+// let loggedInUser = { username: 'vivek' }
+// loggedInUser &&= { ...loggedInUser, color: 'black' }
+// console.log(loggedInUser)
+
+// ++x, x++
+
+let x = 1
+
+let y = 1 + ++x + x++ + 1 // 1+2+2+1
+
+console.log({ x, y }) // x: 3, 6
+
+const z = x++ + 1
+console.log(z, x)
+
+// generators
+
+function* infintieEvenNmber(num) {
+  if (num % 2 !== 0) {
+    throw new Error('Please eneter an even number ')
+  }
+  while (true) {
+    num = num + 2
+    yield num
+  }
+}
+
+const infintieEvenNmberStartingFromEight = infintieEvenNmber(8)
+console.log(infintieEvenNmberStartingFromEight.next().value)
+console.log(infintieEvenNmberStartingFromEight.next().value)
+console.log(infintieEvenNmberStartingFromEight.next().value)
+console.log(infintieEvenNmberStartingFromEight.next().value)
+
+const allImages = Array.from(
+  { length: 103 },
+  (_, i) => `http://placeimg.com/640/480/image-${i}`
+)
+
+function* getLimitedImages(images, batchSize) {
+  let currentIndex = 0
+  while (currentIndex < allImages.length) {
+    yield images.slice(currentIndex, currentIndex + batchSize)
+    currentIndex += batchSize
+  }
+}
+
+const tenImagesFunc = getLimitedImages(allImages, 10)
+
+while (true) {
+  const tenImages = tenImagesFunc.next().value
+  if (!tenImages) {
+    break
+  }
+  console.log(tenImages)
+}
+
+const ara = Array.from({ length: 10 }, (_, i) => i + 1)
+console.log(ara)
