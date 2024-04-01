@@ -1,3 +1,4 @@
+// const api = 'https://pokeapi.co./api/v2/pokemon'
 // const log = console.log
 
 // log(Number(null))
@@ -258,7 +259,6 @@
 
 //pokemon api calls
 
-const api = 'https://pokeapi.co./api/v2/pokemon'
 // fetch(api + '/1')
 //   .then((response) => response.json())
 //   .then((data) => pokemon.push(data.name))
@@ -543,55 +543,102 @@ const api = 'https://pokeapi.co./api/v2/pokemon'
 
 // ++x, x++
 
-let x = 1
+// let x = 1
 
-let y = 1 + ++x + x++ + 1 // 1+2+2+1
+// let y = 1 + ++x + x++ + 1 // 1+2+2+1
 
-console.log({ x, y }) // x: 3, 6
+// console.log({ x, y }) // x: 3, 6
 
-const z = x++ + 1
-console.log(z, x)
+// const z = x++ + 1
+// console.log(z, x)
 
 // generators
 
-function* infintieEvenNmber(num) {
-  if (num % 2 !== 0) {
-    throw new Error('Please eneter an even number ')
-  }
-  while (true) {
-    num = num + 2
-    yield num
-  }
+// function* infintieEvenNmber(num) {
+//   if (num % 2 !== 0) {
+//     throw new Error('Please eneter an even number ')
+//   }
+//   while (true) {
+//     num = num + 2
+//     yield num
+//   }
+// }
+
+// const infintieEvenNmberStartingFromEight = infintieEvenNmber(8)
+// console.log(infintieEvenNmberStartingFromEight.next().value)
+// console.log(infintieEvenNmberStartingFromEight.next().value)
+// console.log(infintieEvenNmberStartingFromEight.next().value)
+// console.log(infintieEvenNmberStartingFromEight.next().value)
+
+// const allImages = Array.from(
+//   { length: 103 },
+//   (_, i) => `http://placeimg.com/640/480/image-${i}`
+// )
+
+// function* getLimitedImages(images, batchSize) {
+//   let currentIndex = 0
+//   while (currentIndex < allImages.length) {
+//     yield images.slice(currentIndex, currentIndex + batchSize)
+//     currentIndex += batchSize
+//   }
+// }
+
+// const tenImagesFunc = getLimitedImages(allImages, 10)
+
+// while (true) {
+//   const tenImages = tenImagesFunc.next().value
+//   if (!tenImages) {
+//     break
+//   }
+//   console.log(tenImages)
+// }
+
+// const ara = Array.from({ length: 10 }, (_, i) => i + 1)
+// console.log(ara)
+function* inventoryGenerator() {
+  yield 'Smartphone'
+  yield 'Tablet'
+  yield 'Ipad'
 }
 
-const infintieEvenNmberStartingFromEight = infintieEvenNmber(8)
-console.log(infintieEvenNmberStartingFromEight.next().value)
-console.log(infintieEvenNmberStartingFromEight.next().value)
-console.log(infintieEvenNmberStartingFromEight.next().value)
-console.log(infintieEvenNmberStartingFromEight.next().value)
-
-const allImages = Array.from(
-  { length: 103 },
-  (_, i) => `http://placeimg.com/640/480/image-${i}`
-)
-
-function* getLimitedImages(images, batchSize) {
-  let currentIndex = 0
-  while (currentIndex < allImages.length) {
-    yield images.slice(currentIndex, currentIndex + batchSize)
-    currentIndex += batchSize
-  }
+// also an iterator
+for (const item of inventoryGenerator()) {
+  console.log(item)
 }
 
-const tenImagesFunc = getLimitedImages(allImages, 10)
+console.log([...inventoryGenerator()])
 
-while (true) {
-  const tenImages = tenImagesFunc.next().value
-  if (!tenImages) {
-    break
-  }
-  console.log(tenImages)
+function* complexGenerator() {
+  console.log('generator started')
+  const value_1 = yield 'Good Morning'
+  console.log('You replied to our good morning was ', value_1)
+  const value_2 = yield 'Great ... I hope you have a great day'
+  console.log('You replied: ', value_2)
 }
 
-const ara = Array.from({ length: 10 }, (_, i) => i + 1)
-console.log(ara)
+const greet = complexGenerator()
+console.log(greet.next().value)
+console.log(greet.next('Good morning to you tooo ....').value)
+console.log(greet.next('you too have a great day ahead').value)
+console.log(greet.next()) // {value: undefined, done: true}
+
+function* regularOrderGen() {
+  yield '1001'
+  yield '1002'
+}
+
+function* expressOrderGen() {
+  yield 'x2001'
+  yield 'x2002'
+}
+
+function* totalOrderGen() {
+  yield* expressOrderGen()
+  yield* regularOrderGen()
+}
+
+const getOrderGen = totalOrderGen()
+console.log(getOrderGen.next().value)
+console.log(getOrderGen.next().value)
+console.log(getOrderGen.next().value)
+console.log(getOrderGen.next().value)
