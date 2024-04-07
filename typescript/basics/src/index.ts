@@ -10,7 +10,7 @@ import * as decoratorTypes from './decorators'
 // basicTypes
 // functionTypes
 // tuplesTypes
-arrayTypes
+// arrayTypes
 // interfaces
 // generics
 // asyncCode

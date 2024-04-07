@@ -1,4 +1,4 @@
-// const api = 'https://pokeapi.co./api/v2/pokemon'
+const api = 'https://pokeapi.co./api/v2/pokemon'
 // const log = console.log
 
 // log(Number(null))
@@ -595,50 +595,94 @@
 
 // const ara = Array.from({ length: 10 }, (_, i) => i + 1)
 // console.log(ara)
-function* inventoryGenerator() {
-  yield 'Smartphone'
-  yield 'Tablet'
-  yield 'Ipad'
-}
+// function* inventoryGenerator() {
+//   yield 'Smartphone'
+//   yield 'Tablet'
+//   yield 'Ipad'
+// }
 
-// also an iterator
-for (const item of inventoryGenerator()) {
-  console.log(item)
-}
+// // also an iterator
+// for (const item of inventoryGenerator()) {
+//   console.log(item)
+// }
 
-console.log([...inventoryGenerator()])
+// console.log([...inventoryGenerator()])
 
-function* complexGenerator() {
-  console.log('generator started')
-  const value_1 = yield 'Good Morning'
-  console.log('You replied to our good morning was ', value_1)
-  const value_2 = yield 'Great ... I hope you have a great day'
-  console.log('You replied: ', value_2)
-}
+// function* complexGenerator() {
+//   console.log('generator started')
+//   const value_1 = yield 'Good Morning'
+//   console.log('You replied to our good morning was ', value_1)
+//   const value_2 = yield 'Great ... I hope you have a great day'
+//   console.log('You replied: ', value_2)
+// }
 
-const greet = complexGenerator()
-console.log(greet.next().value)
-console.log(greet.next('Good morning to you tooo ....').value)
-console.log(greet.next('you too have a great day ahead').value)
-console.log(greet.next()) // {value: undefined, done: true}
+// const greet = complexGenerator()
+// console.log(greet.next().value)
+// console.log(greet.next('Good morning to you tooo ....').value)
+// console.log(greet.next('you too have a great day ahead').value)
+// console.log(greet.next()) // {value: undefined, done: true}
 
-function* regularOrderGen() {
-  yield '1001'
-  yield '1002'
-}
+// function* regularOrderGen() {
+//   yield '1001'
+//   yield '1002'
+// }
 
-function* expressOrderGen() {
-  yield 'x2001'
-  yield 'x2002'
-}
+// function* expressOrderGen() {
+//   yield 'x2001'
+//   yield 'x2002'
+// }
 
-function* totalOrderGen() {
-  yield* expressOrderGen()
-  yield* regularOrderGen()
-}
+// function* totalOrderGen() {
+//   yield* expressOrderGen()
+//   yield* regularOrderGen()
+// }
 
-const getOrderGen = totalOrderGen()
-console.log(getOrderGen.next().value)
-console.log(getOrderGen.next().value)
-console.log(getOrderGen.next().value)
-console.log(getOrderGen.next().value)
+// const getOrderGen = totalOrderGen()
+// console.log(getOrderGen.next().value)
+// console.log(getOrderGen.next().value)
+// // getOrderGen.return calling this will stop the generator
+// console.log(getOrderGen.next().value)
+// console.log(getOrderGen.next().value)
+
+// async function* generatePokemons() {
+//   let number = 1
+//   while (number < 200) {
+//     const pokemonApi = `${api}/${number}`
+//     const response = await fetch(pokemonApi)
+//     const data = await response.json()
+//     yield data.name
+//     number++
+//   }
+// }
+
+// async function getPokemon() {
+//   for await (let pokemon of generatePokemons()) {
+//     console.log(pokemon)
+//   }
+// }
+
+// getPokemon()
+
+// const wrongPokemonApi = 'https://pokeapi.co./api/v2/pokemonn'
+// const retry = 3
+// const wait = () => new Promise((res) => setTimeout(() => res(), 2000))
+
+// const WrongApiWithRetries = async (wrongPokemonApi, retry) => {
+//   try {
+//     const response = await fetch(wrongPokemonApi)
+//     if (!response.ok) {
+//       throw new Error('Wrong api')
+//     }
+
+//     const data = await response.json()
+//     console.log(data)
+//   } catch (error) {
+//     console.log(error.message)
+//     if (retry > 0) {
+//       await wait()
+//       return WrongApiWithRetries(wrongPokemonApi, retry - 1)
+//     }
+//   }
+// }
+
+// WrongApiWithRetries(wrongPokemonApi, 3)
