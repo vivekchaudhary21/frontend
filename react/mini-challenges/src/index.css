@@ -10,36 +10,7 @@ body {
   font-family: 'Roboto Mono', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: grey;
+  /* background-color: grey; */
   margin: 0;
   padding: 0;
-}
-
-main > nav {
-  min-width: 200px;
-  width: 200px;
-  height: 100vh;
-  position: fixed;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-right: 1px solid black;
-}
-
-main > div {
-  margin-left: 200px;
-}
-
-/* Navlink active class */
-a.active {
-  color: white;
-}
-
-.main-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
 }

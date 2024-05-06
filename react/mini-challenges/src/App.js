@@ -10,6 +10,7 @@ import {
   ScrollAnimation,
   DrinkWater,
   ThemeClock,
+  GuessMyNumber,
 } from './challenges'
 import { Home } from './components/Home'
 
@@ -26,6 +27,7 @@ function App() {
       <Route path={PATHS.INCREMENT_COUNTER} element={<IncrementCounter />} />
       <Route path={PATHS.DRINK_WATER} element={<DrinkWater />} />
       <Route path={PATHS.THEME_CLOCK} element={<ThemeClock />} />
+      <Route path={PATHS.GUESS_MY_NUMBER} element={<GuessMyNumber />} />
     </Routes>
   )
 }

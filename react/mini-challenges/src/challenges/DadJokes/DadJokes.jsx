@@ -76,7 +76,7 @@ export const DadJokes = () => {
         {showAllJokes &&
           allJokes.map((joke) => (
             <li className={styles.listItem} key={joke}>
-              {joke}
+              <span>🤣</span> {joke}
             </li>
           ))}
       </ol>

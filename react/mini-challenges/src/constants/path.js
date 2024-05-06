@@ -9,4 +9,5 @@ export const PATHS = {
   INCREMENT_COUNTER: '/increment-counter',
   DRINK_WATER: '/drink-water',
   THEME_CLOCK: '/theme-clock',
+  GUESS_MY_NUMBER: '/guess-my-number',
 }

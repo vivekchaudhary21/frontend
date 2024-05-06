@@ -1,3 +1,9 @@
+.keyBox {
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 .key {
   border: 1px solid #999999;
   background-color: #2b2b2b;

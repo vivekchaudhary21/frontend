@@ -15,7 +15,7 @@ export const KeyBoxes = () => {
   }, [])
 
   return (
-    <div className="main-container">
+    <div className={`container d-flex ${styles.keyBox}`}>
       <div id="insert">
         {keyCode.key ? (
           <>
