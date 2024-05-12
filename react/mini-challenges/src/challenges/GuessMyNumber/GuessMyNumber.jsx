@@ -2,12 +2,22 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from './guessmyumber.module.css'
 
 export const GuessMyNumber = () => {
-  const [inputValue, setInputValue] = useState()
+  const [score, setScore] = useState(20)
+  const [inputValue, setInputValue] = useState('')
   const magicalNumber = useRef(null)
+  const [messageText, setMessageText] = useState('Start guessing ...')
+  const number = messageText === 'Your guessed right' ? inputValue : '?'
+  const [highScore, setHS] = useState(0)
 
   useEffect(() => {
     magicalNumber.current = Math.floor(Math.random() * 20) + 1
   }, [])
+
+  useEffect(() => {
+    if (messageText === 'Your guessed right') {
+      setHS((hs) => Math.max(score, hs))
+    }
+  }, [messageText, score])
 
   const onChangeHandler = (e) => {
     setInputValue(Number(e.target.value))
@@ -16,15 +26,23 @@ export const GuessMyNumber = () => {
   const onCheckClickHandler = () => {
     console.log(magicalNumber.current, inputValue)
     if (magicalNumber.current === inputValue) {
-      //
+      setMessageText('Your guessed right')
+      setScore((sc) => sc - 1)
     } else if (magicalNumber.current < inputValue) {
-      //
+      setMessageText('Too high ....')
+      setScore((sc) => sc - 1)
     } else {
-      //
+      setMessageText('Too low ....')
+      setScore((sc) => sc - 1)
     }
   }
 
-  const onAgainClickHandler = () => {}
+  const onAgainClickHandler = () => {
+    setMessageText('Start guessing ...')
+    setInputValue(0)
+    setScore(20)
+    magicalNumber.current = Math.floor(Math.random() * 20) + 1
+  }
   return (
     <div className={styles.container}>
       <header>
@@ -36,7 +54,7 @@ export const GuessMyNumber = () => {
         >
           Again!
         </button>
-        <div className={styles.number}>?</div>
+        <div className={styles.number}>{number}</div>
       </header>
       <main>
         <section className={styles.left}>
@@ -56,12 +74,12 @@ export const GuessMyNumber = () => {
           </button>
         </section>
         <section className={styles.right}>
-          <p className={styles.message}>Start guessing...</p>
+          <p className={styles.message}>{messageText}</p>
           <p className={styles.labelScore}>
-            💯 Score: <span className={styles.score}>20</span>
+            💯 Score: <span className={styles.score}>{score}</span>
           </p>
           <p className={styles.labelHighscore}>
-            🥇 Highscore: <span className={styles.highscore}>0</span>
+            🥇 Highscore: <span className={styles.highscore}>{highScore}</span>
           </p>
         </section>
       </main>
