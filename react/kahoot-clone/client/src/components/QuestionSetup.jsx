@@ -34,6 +34,7 @@ const QuestionSetup = () => {
       ? savedQuestions
       : [{ text: '', options: ['', ''], correctAnswer: 0 }]
   })
+  const [customTopicName, setCustomTopicName] = useState('')
   const [questionSource, setQuestionSource] = useState(savedQuestionSource)
   const [predefinedQuestions, setPredefinedQuestions] = useState(
     JSON.parse(localStorage.getItem('predefinedQuestions') || '[]')
@@ -101,7 +102,7 @@ const QuestionSetup = () => {
             )
           } else {
             const predefined = predefinedQuestions.find(
-              (topic) => topic.name === serverQuestionSource
+              (topic) => topic.category === serverQuestionSource
             )
             if (predefined) {
               localStorage.setItem(
@@ -191,12 +192,24 @@ const QuestionSetup = () => {
     }))
   }
 
-  const togglePreview = (topicName) => {
-    setShowPreview((prev) => ({ ...prev, [topicName]: !prev[topicName] }))
+  const togglePreview = (category) => {
+    setShowPreview((prev) => ({ ...prev, [category]: !prev[category] }))
   }
 
   const validateQuestions = () => {
     if (questionSource === 'custom') {
+      if (!customTopicName.trim()) {
+        return 'Custom question set category is required.'
+      }
+      if (
+        predefinedQuestions.some(
+          (topic) =>
+            topic.category.toLowerCase() ===
+            customTopicName.trim().toLowerCase()
+        )
+      ) {
+        return 'Custom question set category already exists. Please choose a unique category.'
+      }
       for (const q of questions) {
         if (!q.text.trim()) return 'All questions must have text.'
         if (q.options.some((opt) => !opt.trim()))
@@ -222,7 +235,7 @@ const QuestionSetup = () => {
     const selectedQuestions =
       questionSource === 'custom'
         ? questions
-        : predefinedQuestions.find((topic) => topic.name === questionSource)
+        : predefinedQuestions.find((topic) => topic.category === questionSource)
             ?.questions || []
     const validationError = validateQuestions()
     if (validationError) {
@@ -230,11 +243,16 @@ const QuestionSetup = () => {
       return
     }
     localStorage.setItem('selectedQuestions', JSON.stringify(selectedQuestions))
-    localStorage.setItem('questionSource', questionSource)
+    localStorage.setItem(
+      'questionSource',
+      questionSource === 'custom' ? customTopicName : questionSource
+    )
     socket.emit('setQuestions', {
       gameId,
       questions: selectedQuestions,
-      questionSource,
+      questionSource:
+        questionSource === 'custom' ? customTopicName : questionSource,
+      isCustom: questionSource === 'custom',
     })
     navigate(`/host/${gameId}`)
   }
@@ -295,6 +313,16 @@ const QuestionSetup = () => {
             </Heading>
             {questionSource === 'custom' && (
               <VStack spacing={4}>
+                <Input
+                  type="text"
+                  placeholder="Enter Custom Question Set Category"
+                  value={customTopicName}
+                  onChange={(e) => setCustomTopicName(e.target.value)}
+                  borderColor="blue.200"
+                  focusBorderColor="blue.400"
+                  p={3}
+                  aria-label="Custom question set category"
+                />
                 {questions.map((question, index) => (
                   <Box
                     key={index}
@@ -439,7 +467,7 @@ const QuestionSetup = () => {
 
           {predefinedQuestions.map((topic) => (
             <Box
-              key={topic.name}
+              key={topic.id}
               bg="blue.50"
               rounded="xl"
               p={6}
@@ -457,46 +485,56 @@ const QuestionSetup = () => {
                 display="flex"
                 justifyContent="space-between"
               >
-                {topic.name} Questions
+                {topic.category} Questions
                 <Button
                   onClick={() => {
-                    console.log(`Selecting ${topic.name} Questions`)
-                    setQuestionSource(topic.name)
+                    console.log(`Selecting ${topic.category} Questions`)
+                    setQuestionSource(topic.category)
                   }}
                   colorScheme="blue"
-                  variant={questionSource === topic.name ? 'solid' : 'outline'}
+                  variant={
+                    questionSource === topic.category ? 'solid' : 'outline'
+                  }
                   size="sm"
                   leftIcon={
-                    questionSource === topic.name ? <CheckIcon /> : null
+                    questionSource === topic.category ? <CheckIcon /> : null
                   }
                   bg={
-                    questionSource === topic.name ? 'blue.500' : 'transparent'
+                    questionSource === topic.category
+                      ? 'blue.500'
+                      : 'transparent'
                   }
-                  color={questionSource === topic.name ? 'white' : 'blue.700'}
+                  color={
+                    questionSource === topic.category ? 'white' : 'blue.700'
+                  }
                   borderColor="blue.300"
                   _hover={{
-                    bg: questionSource === topic.name ? 'blue.600' : 'blue.100',
-                    color: questionSource === topic.name ? 'white' : 'blue.800',
+                    bg:
+                      questionSource === topic.category
+                        ? 'blue.600'
+                        : 'blue.100',
+                    color:
+                      questionSource === topic.category ? 'white' : 'blue.800',
                   }}
-                  aria-label={`Select ${topic.name} questions`}
+                  aria-label={`Select ${topic.category} questions`}
                 >
-                  {questionSource === topic.name ? 'Selected' : 'Select'}
+                  {questionSource === topic.category ? 'Selected' : 'Select'}
                 </Button>
               </Heading>
               <Button
-                onClick={() => togglePreview(topic.name)}
+                onClick={() => togglePreview(topic.category)}
                 colorScheme="blue"
                 variant="link"
                 w="full"
                 textAlign="left"
                 mb={2}
-                aria-label={`Toggle ${topic.name} questions preview`}
+                aria-label={`Toggle ${topic.category} questions preview`}
               >
-                {showPreview[topic.name]
-                  ? `Hide ${topic.name} Questions`
-                  : `Show ${topic.name} Questions`}
+                {showPreview[topic.category]
+                  ? `Hide ${topic.category} Questions`
+                  : `Show ${topic.category} Questions`}
               </Button>
-              <Collapse in={showPreview[topic.name]}>
+              <Collapse in={showPreview[topic.category]}>
                 <VStack spacing={2}>
                   {topic.questions.map((q, qIndex) => (
                     <Box

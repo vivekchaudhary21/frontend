@@ -12,7 +12,6 @@ import {
   List,
   ListItem,
   Collapse,
-  SimpleGrid,
 } from '@chakra-ui/react'
 
 const Host = () => {
@@ -35,7 +34,6 @@ const Host = () => {
   const [showFinalLeaderboard, setShowFinalLeaderboard] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
-  const [answerCounts, setAnswerCounts] = useState([]) // New state for answer counts
   const prevPlayersRef = useRef([])
 
   useEffect(() => {
@@ -64,6 +62,17 @@ const Host = () => {
 
     socket.on('gameCreated', ({ gameId, predefinedQuestions }) => {
       console.log('Received gameCreated:', { gameId, predefinedQuestions })
+      if (predefinedQuestions && predefinedQuestions.length > 0) {
+        setPredefinedQuestions(predefinedQuestions)
+        localStorage.setItem(
+          'predefinedQuestions',
+          JSON.stringify(predefinedQuestions)
+        )
+      }
+    })
+
+    socket.on('questionsSet', ({ predefinedQuestions }) => {
+      console.log('Received questionsSet:', { predefinedQuestions })
       if (predefinedQuestions && predefinedQuestions.length > 0) {
         setPredefinedQuestions(predefinedQuestions)
         localStorage.setItem(
@@ -104,7 +113,6 @@ const Host = () => {
         setShowFinalLeaderboard(showFinalLeaderboard)
         setQuestionSource(questionSource || 'Quiz Game')
         setTimerExpired(showLeaderboard)
-        setAnswerCounts(gameState?.answerCounts || []) // Set answer counts
         prevPlayersRef.current = players
         if (predefinedQuestions && predefinedQuestions.length > 0) {
           setPredefinedQuestions(predefinedQuestions)
@@ -117,7 +125,9 @@ const Host = () => {
           setQuestionSource(questionSource)
           localStorage.setItem('questionSource', questionSource)
           if (
-            questionSource === 'custom' &&
+            predefinedQuestions.some(
+              (topic) => topic.category === questionSource
+            ) &&
             questions &&
             questions.length > 0
           ) {
@@ -125,7 +135,7 @@ const Host = () => {
             localStorage.setItem('selectedQuestions', JSON.stringify(questions))
           } else {
             const predefined = predefinedQuestions.find(
-              (topic) => topic.name === questionSource
+              (topic) => topic.category === questionSource
             )
             if (predefined) {
               setQuestions(predefined.questions)
@@ -174,7 +184,6 @@ const Host = () => {
       setShowFinalLeaderboard(false)
       setGameOver(false)
       setTimerExpired(false)
-      setAnswerCounts(state.answerCounts || []) // Update answer counts
     })
 
     socket.on('updatePlayers', (playerList) => {
@@ -207,15 +216,10 @@ const Host = () => {
       prevPlayersRef.current = currentPlayers
     })
 
-    socket.on('timerExpired', ({ questionSource, gameId, answerCounts }) => {
-      console.log('Host received timerExpired:', {
-        questionSource,
-        gameId,
-        answerCounts,
-      })
+    socket.on('timerExpired', ({ questionSource, gameId }) => {
+      console.log('Host received timerExpired:', { questionSource, gameId })
       setTimerExpired(true)
       setQuestionSource(questionSource || 'Quiz Game')
-      setAnswerCounts(answerCounts || []) // Set answer counts
     })
 
     socket.on('gameOver', ({ leaderboard, questionSource, gameId }) => {
@@ -230,7 +234,6 @@ const Host = () => {
       setGameOver(true)
       setQuestionSource(questionSource || 'Quiz Game')
       setTimerExpired(false)
-      setAnswerCounts([]) // Clear answer counts
     })
 
     socket.on(
@@ -247,7 +250,6 @@ const Host = () => {
         setQuestionSource(questionSource || 'Quiz Game')
         setGameOver(gameOver)
         setTimerExpired(gameOver ? false : true)
-        setAnswerCounts([]) // Clear answer counts
       }
     )
 
@@ -268,6 +270,7 @@ const Host = () => {
       socket.off('reconnectSuccess')
       socket.off('reconnectError')
       socket.off('gameCreated')
+      socket.off('questionsSet')
     }
   }, [gameId, navigate])
 
@@ -285,7 +288,14 @@ const Host = () => {
       'source:',
       questionSource
     )
-    socket.emit('setQuestions', { gameId, questions, questionSource })
+    socket.emit('setQuestions', {
+      gameId,
+      questions,
+      questionSource,
+      isCustom: !predefinedQuestions.some(
+        (topic) => topic.category === questionSource
+      ),
+    })
     socket.emit('startGame', { gameId })
   }
 
@@ -398,41 +408,6 @@ const Host = () => {
             <Heading as="h2" size="lg" color="gray.800">
               Question Ended
             </Heading>
-            {gameState && gameState.currentQuestion && (
-              <>
-                <Text
-                  fontSize="2xl"
-                  fontWeight="semibold"
-                  color="gray.800"
-                  mb={2}
-                >
-                  Question {gameState.currentQuestionIndex + 1}:{' '}
-                  {gameState.currentQuestion.text}
-                </Text>
-                <SimpleGrid columns={[1, 2]} gap={4} mb={4}>
-                  {gameState.currentQuestion.options.map((option, index) => (
-                    <Box
-                      key={index}
-                      bg={
-                        index === gameState.currentQuestion.correctAnswer
-                          ? 'green.100'
-                          : 'gray.100'
-                      }
-                      p={4}
-                      rounded="lg"
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Text>{option}</Text>
-                      <Text fontSize="sm" fontWeight="bold">
-                        ({answerCounts[index] || 0} votes)
-                      </Text>
-                    </Box>
-                  ))}
-                </SimpleGrid>
-              </>
-            )}
             <Button
               onClick={showLeaderboardHandler}
               colorScheme="blue"

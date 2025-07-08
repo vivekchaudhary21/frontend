@@ -1,6 +1,7 @@
 const express = require('express')
 const http = require('http')
 const socketIo = require('socket.io')
+const axios = require('axios')
 const app = express()
 const server = http.createServer(app)
 const io = socketIo(server, {
@@ -11,49 +12,89 @@ const io = socketIo(server, {
 })
 
 const games = {}
-const predefinedQuestions = [
-  {
-    name: 'GK',
-    questions: [
+
+// Function to fetch questions from the /test endpoint
+async function fetchQuestions() {
+  try {
+    const response = await axios.get('http://example.com/test') // Replace with actual GET endpoint URL
+    console.log('Fetched questions from /test endpoint:', response.data)
+    return response.data // Expect API to return data in the format with id and category
+  } catch (error) {
+    console.error(
+      'Error fetching questions from /test endpoint:',
+      error.message
+    )
+    // Fallback to default questions with id and category
+    return [
       {
-        text: 'What is the capital of France?',
-        options: ['Paris', 'London', 'Berlin', 'Madrid'],
-        correctAnswer: 0,
+        id: '323-32',
+        category: 'GK',
+        questions: [
+          {
+            text: 'What is the capital of France?',
+            options: ['Paris', 'London', 'Berlin', 'Madrid'],
+            correctAnswer: 0,
+          },
+          {
+            text: 'Which planet is known as the Red Planet?',
+            options: ['Jupiter', 'Mars', 'Venus', 'Mercury'],
+            correctAnswer: 1,
+          },
+        ],
       },
       {
-        text: 'Which planet is known as the Red Planet?',
-        options: ['Jupiter', 'Mars', 'Venus', 'Mercury'],
-        correctAnswer: 1,
+        id: '456-78',
+        category: 'Science',
+        questions: [
+          {
+            text: 'What is the chemical symbol for water?',
+            options: ['H2O', 'CO2', 'O2', 'N2'],
+            correctAnswer: 0,
+          },
+          {
+            text: 'What gas do plants absorb from the atmosphere?',
+            options: ['Oxygen', 'Nitrogen', 'Carbon Dioxide', 'Helium'],
+            correctAnswer: 2,
+          },
+        ],
       },
-    ],
-  },
-  {
-    name: 'Science',
-    questions: [
-      {
-        text: 'What is the chemical symbol for water?',
-        options: ['H2O', 'CO2', 'O2', 'N2'],
-        correctAnswer: 0,
-      },
-      {
-        text: 'What gas do plants absorb from the atmosphere?',
-        options: ['Oxygen', 'Nitrogen', 'Carbon Dioxide', 'Helium'],
-        correctAnswer: 2,
-      },
-    ],
-  },
-]
+    ]
+  }
+}
+
+// Function to post custom question set to the /test endpoint
+async function postCustomQuestions(customQuestionSet) {
+  try {
+    const response = await axios.post(
+      'http://example.com/test',
+      customQuestionSet // Send data in the same format with id and category
+    ) // Replace with actual POST endpoint URL
+    console.log(
+      'Successfully posted custom question set to /test endpoint:',
+      response.data
+    )
+    return response.data
+  } catch (error) {
+    console.error(
+      'Error posting custom question set to /test endpoint:',
+      error.message
+    )
+    // Log the error but do not throw, so game logic continues
+    return null
+  }
+}
 
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id)
 
-  socket.on('reconnect', ({ gameId, username, role }) => {
+  socket.on('reconnect', async ({ gameId, username, role }) => {
     console.log(`Reconnect attempt: ${username} as ${role} for game ${gameId}`)
     if (!games[gameId]) {
       console.log(`Reconnect failed: Game ${gameId} not found`)
       socket.emit('reconnectError', { message: 'Game not found' })
       return
     }
+    const predefinedQuestions = await fetchQuestions()
     if (role === 'host') {
       if (games[gameId].host.username === username) {
         games[gameId].host.socketId = socket.id
@@ -66,7 +107,6 @@ io.on('connection', (socket) => {
                 timeLeft: game.timeLeft,
                 currentQuestionIndex: game.currentQuestionIndex,
                 totalQuestions: game.questions.length,
-                answerCounts: game.answerCounts, // Include answer counts
               }
             : null
         const isGameOver =
@@ -119,7 +159,6 @@ io.on('connection', (socket) => {
                   timeLeft: game.timeLeft,
                   currentQuestionIndex: game.currentQuestionIndex,
                   totalQuestions: game.questions.length,
-                  answerCounts: game.answerCounts, // Include answer counts
                 }
               : null
           const isGameOver =
@@ -134,6 +173,7 @@ io.on('connection', (socket) => {
             showLeaderboard,
             gameOver: isGameOver,
             questionSource: game.questionSource || '',
+            predefinedQuestions,
             showFinalLeaderboard: game.showFinalLeaderboard || false,
             gameId,
           }
@@ -166,7 +206,7 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('createGame', ({ username }) => {
+  socket.on('createGame', async ({ username }) => {
     if (!username) {
       console.log('Create game failed: Username is required')
       socket.emit('createGameError', { message: 'Username is required.' })
@@ -184,64 +224,101 @@ io.on('connection', (socket) => {
       gameStarted: false,
       isEnded: false,
       showFinalLeaderboard: false,
-      answerCounts: [], // Initialize answer counts
     }
     console.log(`Game created: ${gameId} by ${username}`)
     socket.join(gameId)
+    const predefinedQuestions = await fetchQuestions()
     socket.emit('gameCreated', { gameId, predefinedQuestions })
     io.to(gameId).emit('updatePlayers', games[gameId].players)
   })
 
-  socket.on('setQuestions', ({ gameId, questions, questionSource }) => {
-    if (!games[gameId] || games[gameId].host.socketId !== socket.id) {
-      console.log(
-        `Set questions failed: Invalid game ${gameId} or ${socket.id} not host`
-      )
-      socket.emit('setQuestionsError', {
-        message: 'Invalid game or not the host.',
-      })
-      return
-    }
-    if (!questions || !Array.isArray(questions) || questions.length === 0) {
-      console.log(
-        `Set questions failed: No questions provided for game ${gameId}`
-      )
-      socket.emit('setQuestionsError', {
-        message: 'At least one question is required.',
-      })
-      return
-    }
-    for (const q of questions) {
-      if (
-        !q.text ||
-        !Array.isArray(q.options) ||
-        q.options.length < 2 ||
-        q.options.length > 4 ||
-        q.options.some((opt) => !opt) ||
-        isNaN(q.correctAnswer) ||
-        q.correctAnswer < 0 ||
-        q.correctAnswer >= q.options.length
-      ) {
+  socket.on(
+    'setQuestions',
+    async ({ gameId, questions, questionSource, isCustom }) => {
+      if (!games[gameId] || games[gameId].host.socketId !== socket.id) {
         console.log(
-          `Set questions failed: Invalid question format for game ${gameId}`
+          `Set questions failed: Invalid game ${gameId} or ${socket.id} not host`
         )
         socket.emit('setQuestionsError', {
-          message:
-            'Invalid question format: each question must have text, 2–4 options, and a correct answer within the option range.',
+          message: 'Invalid game or not the host.',
         })
         return
       }
+      if (!questions || !Array.isArray(questions) || questions.length === 0) {
+        console.log(
+          `Set questions failed: No questions provided for game ${gameId}`
+        )
+        socket.emit('setQuestionsError', {
+          message: 'At least one question is required.',
+        })
+        return
+      }
+      for (const q of questions) {
+        if (
+          !q.text ||
+          !Array.isArray(q.options) ||
+          q.options.length < 2 ||
+          q.options.length > 4 ||
+          q.options.some((opt) => !opt) ||
+          isNaN(q.correctAnswer) ||
+          q.correctAnswer < 0 ||
+          q.correctAnswer >= q.options.length
+        ) {
+          console.log(
+            `Set questions failed: Invalid question format for game ${gameId}`
+          )
+          socket.emit('setQuestionsError', {
+            message:
+              'Invalid question format: each question must have text, 2–4 options, and a correct answer within the option range.',
+          })
+          return
+        }
+      }
+      const predefinedQuestions = await fetchQuestions()
+      if (isCustom && questionSource) {
+        if (
+          predefinedQuestions.some(
+            (topic) =>
+              topic.category.toLowerCase() === questionSource.toLowerCase()
+          )
+        ) {
+          console.log(
+            `Set questions failed: Custom question set category ${questionSource} already exists`
+          )
+          socket.emit('setQuestionsError', {
+            message:
+              'Custom question set category already exists. Please choose a unique category.',
+          })
+          return
+        }
+        const customQuestionSet = {
+          id: Math.random().toString(36).slice(2, 10),
+          category: questionSource,
+          questions: questions.map((q) => ({
+            text: q.text,
+            options: [...q.options],
+            correctAnswer: parseInt(q.correctAnswer),
+          })),
+        }
+        predefinedQuestions.push(customQuestionSet)
+        console.log(
+          `Added custom question set ${questionSource} to predefinedQuestions`
+        )
+        // Post the custom question set to the /test endpoint
+        await postCustomQuestions(customQuestionSet)
+      }
+      games[gameId].questions = questions.map((q) => ({
+        text: q.text,
+        options: [...q.options],
+        correctAnswer: parseInt(q.correctAnswer),
+      }))
+      games[gameId].questionSource = questionSource || ''
+      console.log(
+        `Questions set for game ${gameId}: ${games[gameId].questions.length} questions, source: ${questionSource}`
+      )
+      socket.emit('questionsSet', { predefinedQuestions })
     }
-    games[gameId].questions = questions.map((q) => ({
-      text: q.text,
-      options: [...q.options],
-      correctAnswer: parseInt(q.correctAnswer),
-    }))
-    games[gameId].questionSource = questionSource || ''
-    console.log(
-      `Questions set for game ${gameId}: ${games[gameId].questions.length} questions, source: ${questionSource}`
-    )
-  })
+  )
 
   socket.on('joinGame', ({ gameId, username }) => {
     console.log(`Join attempt: ${username} for game ${gameId}`)
@@ -366,9 +443,6 @@ io.on('connection', (socket) => {
       games[gameId].gameStarted = true
       games[gameId].currentQuestionIndex = 0
       games[gameId].timeLeft = 10
-      games[gameId].answerCounts = new Array(
-        games[gameId].questions[0].options.length
-      ).fill(0) // Initialize answer counts
       startQuestion(gameId)
     } else {
       console.log(
@@ -433,8 +507,6 @@ io.on('connection', (socket) => {
       const player = games[gameId].players.find((p) => p.username === username)
       if (player && !player.answered) {
         player.answered = true
-        games[gameId].answerCounts[answerIndex] =
-          (games[gameId].answerCounts[answerIndex] || 0) + 1 // Increment answer count
         if (
           answerIndex ===
           games[gameId].questions[games[gameId].currentQuestionIndex]
@@ -479,11 +551,6 @@ io.on('connection', (socket) => {
         )
         games[gameId].timeLeft = 10
         games[gameId].showFinalLeaderboard = false
-        games[gameId].answerCounts = new Array(
-          games[gameId].questions[
-            games[gameId].currentQuestionIndex
-          ].options.length
-        ).fill(0) // Reset answer counts
         startQuestion(gameId)
       } else {
         games[gameId].isEnded = true
@@ -516,7 +583,6 @@ io.on('connection', (socket) => {
     for (const gameId in games) {
       if (games[gameId].host.socketId === socket.id) {
         console.log(`Host disconnected temporarily for game ${gameId}`)
-        // Allow host to reconnect without immediate cleanup
       } else {
         const playerIndex = games[gameId].players.findIndex(
           (p) => p.socketId === socket.id && !p.explicitlyLeft
@@ -588,9 +654,6 @@ io.on('connection', (socket) => {
       return
     }
     games[gameId].players.forEach((player) => (player.answered = false))
-    games[gameId].answerCounts = new Array(
-      games[gameId].questions[games[gameId].currentQuestionIndex].options.length
-    ).fill(0) // Reset answer counts
     console.log(
       `Starting question ${games[gameId].currentQuestionIndex} for game ${gameId}`
     )
@@ -600,7 +663,6 @@ io.on('connection', (socket) => {
       timeLeft: games[gameId].timeLeft,
       currentQuestionIndex: games[gameId].currentQuestionIndex,
       totalQuestions: games[gameId].questions.length,
-      answerCounts: games[gameId].answerCounts, // Include answer counts
     })
 
     const timer = setInterval(() => {
@@ -613,7 +675,6 @@ io.on('connection', (socket) => {
           timeLeft: games[gameId].timeLeft,
           currentQuestionIndex: games[gameId].currentQuestionIndex,
           totalQuestions: games[gameId].questions.length,
-          answerCounts: games[gameId].answerCounts, // Include answer counts
         })
         if (games[gameId].timeLeft <= 0) {
           clearInterval(timer)
@@ -623,7 +684,6 @@ io.on('connection', (socket) => {
           io.to(gameId).emit('timerExpired', {
             questionSource: games[gameId].questionSource || '',
             gameId,
-            answerCounts: games[gameId].answerCounts, // Include answer counts
           })
           if (
             games[gameId].currentQuestionIndex + 1 >=
