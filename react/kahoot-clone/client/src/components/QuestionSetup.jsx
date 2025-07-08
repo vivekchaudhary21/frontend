@@ -467,7 +467,7 @@ const QuestionSetup = () => {
 
           {predefinedQuestions.map((topic) => (
             <Box
-              key={topic.id}
+              key={topic.category}
               bg="blue.50"
               rounded="xl"
               p={6}

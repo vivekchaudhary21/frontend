@@ -6,7 +6,7 @@ const app = express()
 const server = http.createServer(app)
 const io = socketIo(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: '*',
     methods: ['GET', 'POST'],
   },
 })
@@ -17,8 +17,7 @@ const games = {}
 async function fetchQuestions() {
   try {
     const response = await axios.get('http://example.com/test') // Replace with actual GET endpoint URL
-    console.log('Fetched questions from /test endpoint:', response.data)
-    return response.data // Expect API to return data in the format with id and category
+    return response.data
   } catch (error) {
     console.error(
       'Error fetching questions from /test endpoint:',
@@ -27,7 +26,6 @@ async function fetchQuestions() {
     // Fallback to default questions with id and category
     return [
       {
-        id: '323-32',
         category: 'GK',
         questions: [
           {
@@ -43,7 +41,6 @@ async function fetchQuestions() {
         ],
       },
       {
-        id: '456-78',
         category: 'Science',
         questions: [
           {
@@ -67,12 +64,9 @@ async function postCustomQuestions(customQuestionSet) {
   try {
     const response = await axios.post(
       'http://example.com/test',
-      customQuestionSet // Send data in the same format with id and category
-    ) // Replace with actual POST endpoint URL
-    console.log(
-      'Successfully posted custom question set to /test endpoint:',
-      response.data
+      customQuestionSet
     )
+
     return response.data
   } catch (error) {
     console.error(
@@ -107,6 +101,7 @@ io.on('connection', (socket) => {
                 timeLeft: game.timeLeft,
                 currentQuestionIndex: game.currentQuestionIndex,
                 totalQuestions: game.questions.length,
+                answerCounts: game.answerCounts,
               }
             : null
         const isGameOver =
@@ -159,6 +154,7 @@ io.on('connection', (socket) => {
                   timeLeft: game.timeLeft,
                   currentQuestionIndex: game.currentQuestionIndex,
                   totalQuestions: game.questions.length,
+                  answerCounts: game.answerCounts,
                 }
               : null
           const isGameOver =
@@ -224,6 +220,7 @@ io.on('connection', (socket) => {
       gameStarted: false,
       isEnded: false,
       showFinalLeaderboard: false,
+      answerCounts: [],
     }
     console.log(`Game created: ${gameId} by ${username}`)
     socket.join(gameId)
@@ -443,6 +440,9 @@ io.on('connection', (socket) => {
       games[gameId].gameStarted = true
       games[gameId].currentQuestionIndex = 0
       games[gameId].timeLeft = 10
+      games[gameId].answerCounts = new Array(
+        games[gameId].questions[0].options.length
+      ).fill(0)
       startQuestion(gameId)
     } else {
       console.log(
@@ -507,6 +507,8 @@ io.on('connection', (socket) => {
       const player = games[gameId].players.find((p) => p.username === username)
       if (player && !player.answered) {
         player.answered = true
+        games[gameId].answerCounts[answerIndex] =
+          (games[gameId].answerCounts[answerIndex] || 0) + 1
         if (
           answerIndex ===
           games[gameId].questions[games[gameId].currentQuestionIndex]
@@ -551,6 +553,11 @@ io.on('connection', (socket) => {
         )
         games[gameId].timeLeft = 10
         games[gameId].showFinalLeaderboard = false
+        games[gameId].answerCounts = new Array(
+          games[gameId].questions[
+            games[gameId].currentQuestionIndex
+          ].options.length
+        ).fill(0)
         startQuestion(gameId)
       } else {
         games[gameId].isEnded = true
@@ -654,6 +661,9 @@ io.on('connection', (socket) => {
       return
     }
     games[gameId].players.forEach((player) => (player.answered = false))
+    games[gameId].answerCounts = new Array(
+      games[gameId].questions[games[gameId].currentQuestionIndex].options.length
+    ).fill(0)
     console.log(
       `Starting question ${games[gameId].currentQuestionIndex} for game ${gameId}`
     )
@@ -663,6 +673,7 @@ io.on('connection', (socket) => {
       timeLeft: games[gameId].timeLeft,
       currentQuestionIndex: games[gameId].currentQuestionIndex,
       totalQuestions: games[gameId].questions.length,
+      answerCounts: games[gameId].answerCounts,
     })
 
     const timer = setInterval(() => {
@@ -675,6 +686,7 @@ io.on('connection', (socket) => {
           timeLeft: games[gameId].timeLeft,
           currentQuestionIndex: games[gameId].currentQuestionIndex,
           totalQuestions: games[gameId].questions.length,
+          answerCounts: games[gameId].answerCounts,
         })
         if (games[gameId].timeLeft <= 0) {
           clearInterval(timer)
@@ -684,6 +696,7 @@ io.on('connection', (socket) => {
           io.to(gameId).emit('timerExpired', {
             questionSource: games[gameId].questionSource || '',
             gameId,
+            answerCounts: games[gameId].answerCounts,
           })
           if (
             games[gameId].currentQuestionIndex + 1 >=

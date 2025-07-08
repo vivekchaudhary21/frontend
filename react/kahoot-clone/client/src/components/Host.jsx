@@ -12,6 +12,7 @@ import {
   List,
   ListItem,
   Collapse,
+  SimpleGrid,
 } from '@chakra-ui/react'
 
 const Host = () => {
@@ -34,6 +35,8 @@ const Host = () => {
   const [showFinalLeaderboard, setShowFinalLeaderboard] = useState(false)
   const [timerExpired, setTimerExpired] = useState(false)
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
+  const [answerCounts, setAnswerCounts] = useState([])
+
   const prevPlayersRef = useRef([])
 
   useEffect(() => {
@@ -113,6 +116,8 @@ const Host = () => {
         setShowFinalLeaderboard(showFinalLeaderboard)
         setQuestionSource(questionSource || 'Quiz Game')
         setTimerExpired(showLeaderboard)
+        setAnswerCounts(gameState?.answerCounts || [])
+
         prevPlayersRef.current = players
         if (predefinedQuestions && predefinedQuestions.length > 0) {
           setPredefinedQuestions(predefinedQuestions)
@@ -216,10 +221,15 @@ const Host = () => {
       prevPlayersRef.current = currentPlayers
     })
 
-    socket.on('timerExpired', ({ questionSource, gameId }) => {
-      console.log('Host received timerExpired:', { questionSource, gameId })
+    socket.on('timerExpired', ({ questionSource, gameId, answerCounts }) => {
+      console.log('Host received timerExpired:', {
+        questionSource,
+        gameId,
+        answerCounts,
+      })
       setTimerExpired(true)
       setQuestionSource(questionSource || 'Quiz Game')
+      setAnswerCounts(answerCounts || [])
     })
 
     socket.on('gameOver', ({ leaderboard, questionSource, gameId }) => {
@@ -234,6 +244,7 @@ const Host = () => {
       setGameOver(true)
       setQuestionSource(questionSource || 'Quiz Game')
       setTimerExpired(false)
+      setAnswerCounts([])
     })
 
     socket.on(
@@ -250,6 +261,7 @@ const Host = () => {
         setQuestionSource(questionSource || 'Quiz Game')
         setGameOver(gameOver)
         setTimerExpired(gameOver ? false : true)
+        setAnswerCounts([])
       }
     )
 
@@ -408,6 +420,41 @@ const Host = () => {
             <Heading as="h2" size="lg" color="gray.800">
               Question Ended
             </Heading>
+            {gameState && gameState.currentQuestion && (
+              <>
+                <Text
+                  fontSize="2xl"
+                  fontWeight="semibold"
+                  color="gray.800"
+                  mb={2}
+                >
+                  Question {gameState.currentQuestionIndex + 1}:{' '}
+                  {gameState.currentQuestion.text}
+                </Text>
+                <SimpleGrid columns={[1, 2]} gap={4} mb={4}>
+                  {gameState.currentQuestion.options.map((option, index) => (
+                    <Box
+                      key={index}
+                      bg={
+                        index === gameState.currentQuestion.correctAnswer
+                          ? 'green.100'
+                          : 'gray.100'
+                      }
+                      p={4}
+                      rounded="lg"
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Text>{option}</Text>
+                      <Text fontSize="sm" fontWeight="bold">
+                        ({answerCounts[index] || 0} votes)
+                      </Text>
+                    </Box>
+                  ))}
+                </SimpleGrid>
+              </>
+            )}
             <Button
               onClick={showLeaderboardHandler}
               colorScheme="blue"
