@@ -1,0 +1,405 @@
+/* Base Styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+/* Home Page */
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+}
+
+.home-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.home-card h1 {
+  color: #4a4a4a;
+  margin-bottom: 1.5rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #6e8efb;
+  outline: none;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.create-btn,
+.join-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.create-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.create-btn:hover {
+  background-color: #3e8e41;
+}
+
+.divider {
+  position: relative;
+  margin: 1rem 0;
+  color: #777;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background-color: #ddd;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.join-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.join-group input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.join-btn {
+  background-color: #2196f3;
+  color: white;
+}
+
+.join-btn:hover {
+  background-color: #0b7dda;
+}
+
+/* Room Styles */
+.room-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.waiting-room {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.waiting-room h2 {
+  color: #4a4a4a;
+  margin-bottom: 1.5rem;
+}
+
+.players-list {
+  margin: 2rem 0;
+}
+
+.players-list ul {
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.players-list li {
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.start-btn {
+  padding: 12px 24px;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.start-btn:hover {
+  background-color: #e64a19;
+}
+
+.start-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Question Styles */
+.question-container {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.question-number {
+  font-weight: bold;
+  color: #666;
+}
+
+.timer {
+  font-weight: bold;
+  color: #ff5722;
+  font-size: 1.2rem;
+}
+
+.question-text {
+  font-size: 1.5rem;
+  margin: 1.5rem 0;
+  color: #333;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.option {
+  position: relative;
+  padding: 1.5rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.option:hover {
+  background-color: #e9ecef;
+}
+
+.option-letter {
+  font-weight: bold;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+
+.option-text {
+  flex: 1;
+}
+
+.correct-marker {
+  margin-left: 1rem;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* Answer States */
+.selected {
+  background-color: #2196f3;
+  color: white;
+  border-color: #2196f3;
+}
+
+.correct {
+  background-color: #4caf50;
+  color: white;
+  border-color: #4caf50;
+}
+
+.incorrect {
+  background-color: #f44336;
+  color: white;
+  border-color: #f44336;
+}
+
+/* Players Status */
+.players-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.player-status {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.player-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin-right: 0.5rem;
+}
+
+.player-dot.answered {
+  background-color: #4caf50;
+}
+
+.player-score {
+  margin-left: 0.5rem;
+  font-weight: bold;
+}
+
+/* Game Over */
+.game-over {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.game-over h2 {
+  color: #4a4a4a;
+  margin-bottom: 0.5rem;
+}
+
+.game-over h3 {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.leaderboard {
+  margin: 2rem 0;
+}
+
+.player-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.player-score.winner {
+  background-color: #fff8e1;
+}
+
+.position {
+  font-weight: bold;
+  color: #ff5722;
+}
+
+.name {
+  flex: 1;
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.score {
+  font-weight: bold;
+}
+
+.home-btn {
+  padding: 12px 24px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.home-btn:hover {
+  background-color: #0b7dda;
+}
+
+/* Countdown */
+.countdown {
+  text-align: center;
+  margin-top: 10rem;
+}
+
+.countdown h1 {
+  font-size: 8rem;
+  color: #ff5722;
+  margin: 0;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.countdown p {
+  font-size: 1.5rem;
+  color: #666;
+}
