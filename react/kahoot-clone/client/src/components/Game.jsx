@@ -11,6 +11,18 @@ import {
   VStack,
   SimpleGrid,
 } from '@chakra-ui/react'
+import { Bar } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const Game = () => {
   const { gameId } = useParams()
@@ -25,7 +37,7 @@ const Game = () => {
   const [timerExpired, setTimerExpired] = useState(false)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null)
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(null)
-  const [answerCounts, setAnswerCounts] = useState([]) // New state for answer counts
+  const [answerCounts, setAnswerCounts] = useState([])
   const prevPlayersRef = useRef([])
   const lastGameStateRef = useRef(null)
 
@@ -90,7 +102,7 @@ const Game = () => {
         setShowFinalLeaderboard(showFinalLeaderboard)
         setTimerExpired(showLeaderboard)
         setCurrentQuestionIndex(gameState?.currentQuestionIndex ?? null)
-        setAnswerCounts(gameState?.answerCounts || []) // Set answer counts
+        setAnswerCounts(gameState?.answerCounts || [])
         lastGameStateRef.current = gameState
         if (
           gameState?.currentQuestionIndex !== null &&
@@ -139,7 +151,7 @@ const Game = () => {
         selectedAnswer,
         hasQuestion: !!state.currentQuestion,
         timeLeft: state.timeLeft,
-        answerCounts: state.answerCounts, // Include answer counts
+        answerCounts: state.answerCounts,
       })
       if (
         lastGameStateRef.current &&
@@ -162,7 +174,7 @@ const Game = () => {
         )
         setSelectedAnswer(null)
         setIsAnswerCorrect(null)
-        setAnswerCounts([]) // Reset answer counts
+        setAnswerCounts([])
         localStorage.removeItem(`selectedAnswer_${gameId}_${username}`)
         localStorage.setItem(
           `questionIndex_${gameId}_${username}`,
@@ -174,7 +186,7 @@ const Game = () => {
       setGameOver(false)
       setShowFinalLeaderboard(false)
       setTimerExpired(false)
-      setAnswerCounts(state.answerCounts || []) // Update answer counts
+      setAnswerCounts(state.answerCounts || [])
     })
 
     socket.on('updatePlayers', (playerList) => {
@@ -219,7 +231,7 @@ const Game = () => {
       })
       setTimerExpired(true)
       setQuestionSource(questionSource || 'Quiz Game')
-      setAnswerCounts(answerCounts || []) // Set answer counts
+      setAnswerCounts(answerCounts || [])
       if (selectedAnswer !== null && gameState?.currentQuestion) {
         const isCorrect =
           selectedAnswer === gameState.currentQuestion.correctAnswer
@@ -243,7 +255,7 @@ const Game = () => {
       setTimerExpired(false)
       setSelectedAnswer(null)
       setIsAnswerCorrect(null)
-      setAnswerCounts([]) // Clear answer counts
+      setAnswerCounts([])
       localStorage.removeItem(`selectedAnswer_${gameId}_${username}`)
       localStorage.removeItem(`questionIndex_${gameId}_${username}`)
     })
@@ -264,7 +276,7 @@ const Game = () => {
         setTimerExpired(false)
         setSelectedAnswer(null)
         setIsAnswerCorrect(null)
-        setAnswerCounts([]) // Clear answer counts
+        setAnswerCounts([])
         localStorage.removeItem(`selectedAnswer_${gameId}_${username}`)
         localStorage.removeItem(`questionIndex_${gameId}_${username}`)
       }
@@ -326,6 +338,64 @@ const Game = () => {
       position: 'top-right',
       autoClose: 3000,
     })
+  }
+
+  const chartData = {
+    labels:
+      gameState?.currentQuestion?.options?.map(
+        (_, index) => `Option ${index + 1}`
+      ) || [],
+    datasets: [
+      {
+        label: 'Votes',
+        data: answerCounts,
+        backgroundColor:
+          gameState?.currentQuestion?.options?.map((_, index) =>
+            index === gameState.currentQuestion.correctAnswer
+              ? 'rgba(75, 192, 192, 0.6)'
+              : selectedAnswer === index
+              ? isAnswerCorrect
+                ? 'rgba(75, 192, 192, 0.6)'
+                : 'rgba(255, 99, 132, 0.6)'
+              : 'rgba(54, 162, 235, 0.6)'
+          ) || [],
+        borderColor:
+          gameState?.currentQuestion?.options?.map((_, index) =>
+            index === gameState.currentQuestion.correctAnswer
+              ? 'rgba(75, 192, 192, 1)'
+              : selectedAnswer === index
+              ? isAnswerCorrect
+                ? 'rgba(75, 192, 192, 1)'
+                : 'rgba(255, 99, 132, 1)'
+              : 'rgba(54, 162, 235, 1)'
+          ) || [],
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Answer Distribution',
+        color: 'gray.800',
+        font: { size: 16, weight: 'bold' },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 1, color: 'gray.600' },
+        title: { display: true, text: 'Number of Votes', color: 'gray.800' },
+      },
+      x: {
+        ticks: { color: 'gray.600' },
+        title: { display: true, text: 'Options', color: 'gray.800' },
+      },
+    },
   }
 
   return (
@@ -394,6 +464,9 @@ const Game = () => {
                     You did not submit an answer.
                   </Text>
                 )}
+                <Box w="full" maxW="600px" mb={4}>
+                  <Bar data={chartData} options={chartOptions} />
+                </Box>
                 <SimpleGrid columns={[1, 2]} gap={4} mb={4}>
                   {gameState.currentQuestion.options.map((option, index) => (
                     <Button
@@ -421,9 +494,6 @@ const Game = () => {
                       justifyContent="space-between"
                     >
                       <Text>{option}</Text>
-                      <Text fontSize="sm" fontWeight="bold">
-                        ({answerCounts[index] || 0} votes)
-                      </Text>
                     </Button>
                   ))}
                 </SimpleGrid>

@@ -14,6 +14,8 @@ import {
   SimpleGrid,
   List,
   ListItem,
+  Checkbox,
+  HStack,
 } from '@chakra-ui/react'
 import {
   ChevronDownIcon,
@@ -44,6 +46,16 @@ const QuestionSetup = () => {
   const [expandedQuestions, setExpandedQuestions] = useState(
     questions.reduce((acc, _, index) => ({ ...acc, [index]: index === 0 }), {})
   )
+  const [selectedPredefinedQuestions, setSelectedPredefinedQuestions] =
+    useState(
+      predefinedQuestions.reduce(
+        (acc, topic) => ({
+          ...acc,
+          [topic.category]: topic.questions.map((_, index) => true),
+        }),
+        {}
+      )
+    )
 
   useEffect(() => {
     const username = localStorage.getItem('hostUsername')
@@ -66,6 +78,15 @@ const QuestionSetup = () => {
           'predefinedQuestions',
           JSON.stringify(predefinedQuestions)
         )
+        setSelectedPredefinedQuestions(
+          predefinedQuestions.reduce(
+            (acc, topic) => ({
+              ...acc,
+              [topic.category]: topic.questions.map(() => true),
+            }),
+            {}
+          )
+        )
       }
     })
 
@@ -86,6 +107,15 @@ const QuestionSetup = () => {
           localStorage.setItem(
             'predefinedQuestions',
             JSON.stringify(predefinedQuestions)
+          )
+          setSelectedPredefinedQuestions(
+            predefinedQuestions.reduce(
+              (acc, topic) => ({
+                ...acc,
+                [topic.category]: topic.questions.map(() => true),
+              }),
+              {}
+            )
           )
         }
         if (serverQuestionSource && questions && questions.length > 0) {
@@ -110,6 +140,10 @@ const QuestionSetup = () => {
                 JSON.stringify(predefined.questions)
               )
               setQuestions(predefined.questions)
+              setSelectedPredefinedQuestions((prev) => ({
+                ...prev,
+                [serverQuestionSource]: predefined.questions.map(() => true),
+              }))
             }
           }
         }
@@ -196,6 +230,28 @@ const QuestionSetup = () => {
     setShowPreview((prev) => ({ ...prev, [category]: !prev[category] }))
   }
 
+  const togglePredefinedQuestion = (category, index) => {
+    setSelectedPredefinedQuestions((prev) => {
+      const newSelection = [...prev[category]]
+      newSelection[index] = !newSelection[index]
+      return { ...prev, [category]: newSelection }
+    })
+  }
+
+  const selectAllPredefinedQuestions = (category) => {
+    setSelectedPredefinedQuestions((prev) => ({
+      ...prev,
+      [category]: prev[category].map(() => true),
+    }))
+  }
+
+  const deselectAllPredefinedQuestions = (category) => {
+    setSelectedPredefinedQuestions((prev) => ({
+      ...prev,
+      [category]: prev[category].map(() => false),
+    }))
+  }
+
   const validateQuestions = () => {
     if (questionSource === 'custom') {
       if (!customTopicName.trim()) {
@@ -227,16 +283,32 @@ const QuestionSetup = () => {
           }.`
         }
       }
+    } else {
+      const selected = selectedPredefinedQuestions[questionSource]?.reduce(
+        (count, isSelected) => count + (isSelected ? 1 : 0),
+        0
+      )
+      if (!selected || selected === 0) {
+        return `At least one question must be selected in the ${questionSource} category.`
+      }
     }
     return ''
   }
 
   const saveQuestions = () => {
-    const selectedQuestions =
-      questionSource === 'custom'
-        ? questions
-        : predefinedQuestions.find((topic) => topic.category === questionSource)
-            ?.questions || []
+    let selectedQuestions = []
+    if (questionSource === 'custom') {
+      selectedQuestions = questions
+    } else {
+      const topic = predefinedQuestions.find(
+        (t) => t.category === questionSource
+      )
+      if (topic) {
+        selectedQuestions = topic.questions.filter(
+          (_, index) => selectedPredefinedQuestions[questionSource][index]
+        )
+      }
+    }
     const validationError = validateQuestions()
     if (validationError) {
       setFormStatus(validationError)
@@ -521,6 +593,26 @@ const QuestionSetup = () => {
                   {questionSource === topic.category ? 'Selected' : 'Select'}
                 </Button>
               </Heading>
+              <HStack mb={4}>
+                <Button
+                  onClick={() => selectAllPredefinedQuestions(topic.category)}
+                  colorScheme="blue"
+                  variant="link"
+                  size="sm"
+                  aria-label={`Select all ${topic.category} questions`}
+                >
+                  Select All
+                </Button>
+                <Button
+                  onClick={() => deselectAllPredefinedQuestions(topic.category)}
+                  colorScheme="red"
+                  variant="link"
+                  size="sm"
+                  aria-label={`Deselect all ${topic.category} questions`}
+                >
+                  Deselect All
+                </Button>
+              </HStack>
               <Button
                 onClick={() => togglePreview(topic.category)}
                 colorScheme="blue"
@@ -544,25 +636,43 @@ const QuestionSetup = () => {
                       borderWidth={1}
                       borderColor="blue.200"
                       p={3}
+                      w="full"
                     >
-                      <Text fontWeight="semibold" color="gray.700">
-                        {qIndex + 1}. {q.text}
-                      </Text>
-                      <List pl={5} styleType="disc" color="gray.600">
-                        {q.options.map((opt, optIndex) => (
-                          <ListItem
-                            key={optIndex}
-                            color={
-                              optIndex === q.correctAnswer
-                                ? 'green.600'
-                                : 'gray.600'
-                            }
-                          >
-                            {opt}{' '}
-                            {optIndex === q.correctAnswer ? '(Correct)' : ''}
-                          </ListItem>
-                        ))}
-                      </List>
+                      <HStack>
+                        <Checkbox
+                          isChecked={
+                            selectedPredefinedQuestions[topic.category][qIndex]
+                          }
+                          onChange={() =>
+                            togglePredefinedQuestion(topic.category, qIndex)
+                          }
+                          aria-label={`Select question ${qIndex + 1} in ${
+                            topic.category
+                          }`}
+                        />
+                        <VStack align="start" flex={1}>
+                          <Text fontWeight="semibold" color="gray.700">
+                            {qIndex + 1}. {q.text}
+                          </Text>
+                          <List pl={5} styleType="disc" color="gray.600">
+                            {q.options.map((opt, optIndex) => (
+                              <ListItem
+                                key={optIndex}
+                                color={
+                                  optIndex === q.correctAnswer
+                                    ? 'green.600'
+                                    : 'gray.600'
+                                }
+                              >
+                                {opt}{' '}
+                                {optIndex === q.correctAnswer
+                                  ? '(Correct)'
+                                  : ''}
+                              </ListItem>
+                            ))}
+                          </List>
+                        </VStack>
+                      </HStack>
                     </Box>
                   ))}
                 </VStack>

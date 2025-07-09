@@ -14,6 +14,18 @@ import {
   Collapse,
   SimpleGrid,
 } from '@chakra-ui/react'
+import { Bar } from 'react-chartjs-2'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const Host = () => {
   const { gameId } = useParams()
@@ -36,7 +48,6 @@ const Host = () => {
   const [timerExpired, setTimerExpired] = useState(false)
   const [isAccordionOpen, setIsAccordionOpen] = useState(false)
   const [answerCounts, setAnswerCounts] = useState([])
-
   const prevPlayersRef = useRef([])
 
   useEffect(() => {
@@ -325,6 +336,62 @@ const Host = () => {
     setIsAccordionOpen(!isAccordionOpen)
   }
 
+  const chartData = {
+    labels:
+      gameState?.currentQuestion?.options?.map(
+        (_, index) => `Option ${index + 1}`
+      ) || [],
+    datasets: [
+      {
+        label: 'Votes',
+        data: answerCounts,
+        backgroundColor:
+          gameState?.currentQuestion?.options?.map((_, index) =>
+            index === gameState.currentQuestion.correctAnswer
+              ? 'rgba(75, 192, 192, 0.6)'
+              : 'rgba(54, 162, 235, 0.6)'
+          ) || [],
+        borderColor:
+          gameState?.currentQuestion?.options?.map((_, index) =>
+            index === gameState.currentQuestion.correctAnswer
+              ? 'rgba(75, 192, 192, 1)'
+              : 'rgba(54, 162, 235, 1)'
+          ) || [],
+        borderWidth: 1,
+      },
+    ],
+  }
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Answer Distribution',
+        color: 'gray.800',
+        font: { size: 16, weight: 'bold' },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 1, color: 'gray.600' },
+        title: { display: true, text: 'Number of Votes', color: 'gray.800' },
+      },
+      x: {
+        ticks: { color: 'gray.600' },
+        title: { display: true, text: 'Options', color: 'gray.800' },
+      },
+    },
+  }
+
+  // Calculate total questions for the selected category
+  const totalQuestions = questions.length
+  const totalAvailableQuestions =
+    predefinedQuestions.find((topic) => topic.category === questionSource)
+      ?.questions.length || totalQuestions
+
   return (
     <Box
       minH="100vh"
@@ -344,6 +411,9 @@ const Host = () => {
             <Heading fontSize="4xl" color="gray.800">
               {questionSource || 'Quiz Game'} (Game ID: {gameId})
             </Heading>
+            <Text fontSize="lg" color="gray.600">
+              Total Questions: {totalQuestions}
+            </Text>
             <Heading as="h2" size="lg" color="gray.800">
               Game Over!
             </Heading>
@@ -387,6 +457,9 @@ const Host = () => {
             <Heading fontSize="4xl" color="gray.800">
               {questionSource || 'Quiz Game'} (Game ID: {gameId})
             </Heading>
+            <Text fontSize="lg" color="gray.600">
+              Total Questions: {totalQuestions}
+            </Text>
             <Leaderboard players={players} gameOver={gameOver} />
             <Button
               onClick={() => {
@@ -417,6 +490,9 @@ const Host = () => {
             <Heading fontSize="4xl" color="gray.800">
               {questionSource || 'Quiz Game'} (Game ID: {gameId})
             </Heading>
+            <Text fontSize="lg" color="gray.600">
+              Total Questions: {totalQuestions}
+            </Text>
             <Heading as="h2" size="lg" color="gray.800">
               Question Ended
             </Heading>
@@ -431,6 +507,9 @@ const Host = () => {
                   Question {gameState.currentQuestionIndex + 1}:{' '}
                   {gameState.currentQuestion.text}
                 </Text>
+                <Box w="full" maxW="600px" mb={4}>
+                  <Bar data={chartData} options={chartOptions} />
+                </Box>
                 <SimpleGrid columns={[1, 2]} gap={4} mb={4}>
                   {gameState.currentQuestion.options.map((option, index) => (
                     <Box
@@ -447,36 +526,33 @@ const Host = () => {
                       alignItems="center"
                     >
                       <Text>{option}</Text>
-                      <Text fontSize="sm" fontWeight="bold">
-                        ({answerCounts[index] || 0} votes)
-                      </Text>
                     </Box>
                   ))}
                 </SimpleGrid>
+                <Button
+                  onClick={showLeaderboardHandler}
+                  colorScheme="blue"
+                  px={6}
+                  py={3}
+                  rounded="full"
+                  _hover={{ transform: 'scale(1.05)', transition: 'all 0.3s' }}
+                  aria-label="Show leaderboard"
+                >
+                  Show Leaderboard
+                </Button>
+                <Button
+                  onClick={() => socket.emit('nextQuestion', { gameId })}
+                  colorScheme="blue"
+                  px={6}
+                  py={3}
+                  rounded="full"
+                  _hover={{ transform: 'scale(1.05)', transition: 'all 0.3s' }}
+                  aria-label="Next question"
+                >
+                  Next Question
+                </Button>
               </>
             )}
-            <Button
-              onClick={showLeaderboardHandler}
-              colorScheme="blue"
-              px={6}
-              py={3}
-              rounded="full"
-              _hover={{ transform: 'scale(1.05)', transition: 'all 0.3s' }}
-              aria-label="Show leaderboard"
-            >
-              Show Leaderboard
-            </Button>
-            <Button
-              onClick={() => socket.emit('nextQuestion', { gameId })}
-              colorScheme="blue"
-              px={6}
-              py={3}
-              rounded="full"
-              _hover={{ transform: 'scale(1.05)', transition: 'all 0.3s' }}
-              aria-label="Next question"
-            >
-              Next Question
-            </Button>
           </VStack>
         ) : timerExpired && !gameOver && showFinalLeaderboard ? (
           <VStack
@@ -487,6 +563,9 @@ const Host = () => {
             <Heading fontSize="4xl" color="gray.800">
               {questionSource || 'Quiz Game'} (Game ID: {gameId})
             </Heading>
+            <Text fontSize="lg" color="gray.600">
+              Total Questions: {totalQuestions}
+            </Text>
             <Leaderboard players={players} gameOver={gameOver} />
             <Box display="flex" justifyContent="center" gap={4}>
               <Button
@@ -523,7 +602,7 @@ const Host = () => {
               {questionSource || 'Quiz Game'} (Game ID: {gameId})
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              Players: {players.length}
+              Players: {players.length} | Total Questions: {totalQuestions}
             </Text>
             <Box w="full">
               <Button
@@ -611,7 +690,11 @@ const Host = () => {
               {questionSource || 'Quiz Game'} (Game ID: {gameId})
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              Players: {players.length}
+              Players: {players.length} | Total Questions: {totalQuestions}{' '}
+              {questionSource !== 'custom' &&
+              totalQuestions < totalAvailableQuestions
+                ? `of ${totalAvailableQuestions} available`
+                : ''}
             </Text>
             <Box w="full">
               <Button
