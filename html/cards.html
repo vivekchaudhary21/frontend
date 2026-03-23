@@ -1,0 +1,67 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cards</title>
+  <style>
+    body {
+      background-color: black;
+     color: white
+    }
+    #container {
+      /* height: 80vh;
+      width: 80vh; */
+      display: grid;
+      grid-template-columns: auto auto auto;
+      overflow: auto;
+      scrollbar-width: none;
+      column-gap: 10px;
+      row-gap: 10px;
+    }
+    .card {
+      border: 1px solid pink;
+      height: 200px;
+      width: 200px;
+      background-color: red;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+
+    button {
+      margin-bottom: 10px
+    }
+  </style>
+</head>
+<body>
+  <h1>Cards</h1>
+  <button id="addCard">Add card</button>
+  <div id="container"></div>
+</body>
+  <script>
+    let count = 1;
+    const container = document.getElementById('container')
+    const addCardButton = document.getElementById('addCard')
+    addCardButton.addEventListener('click', addCard)
+    container.addEventListener('click', handleConainerEvent)
+
+    function addCard() {
+      const card = document.createElement('div');
+      card.classList.add('card')
+      card.innerText = count++;
+      container.append(card)
+    }
+
+    function handleConainerEvent (e) {
+      if(e.target.id !== "container") {
+        e.target.remove()
+      }
+    }
+
+
+  </script>
+</html>
