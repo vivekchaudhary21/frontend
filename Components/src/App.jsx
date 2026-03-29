@@ -1,3 +1,3 @@
-import { ColumnChooser } from './components'
+import * as Components from './components'
 
-export const App = () => <ColumnChooser />
+export const App = () => <Components.ProgressSteps totalSteps={5} />
