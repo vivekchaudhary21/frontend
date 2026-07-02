@@ -28,11 +28,10 @@
   position: absolute;
   top: 50%;
   left: 0;
-  width: 0%;
   height: 4px;
   transform: translateY(-50%);
   z-index: -1;
-  transition: 0.4s ease;
+  transition: 1s ease;
 }
 
 .step {
@@ -62,7 +61,7 @@
   padding: 8px 30px;
   margin: 5px;
   font-size: 14px;
-  transform: 0.5 ease-in;
+  transform: 1s ease;
 }
 
 .prev:disabled,

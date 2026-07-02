@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import './styles.css'
 
-export const ProgressSteps = ({ totalSteps, activeStep = 2 }) => {
+export const ProgressSteps = ({
+  totalSteps,
+  activeStep = 1,
+  width = '350px',
+}) => {
   const [currentStep, setCurrentStep] = useState(activeStep ?? 1)
 
   const isPrevButtonDisabled = currentStep === 1
@@ -15,16 +19,19 @@ export const ProgressSteps = ({ totalSteps, activeStep = 2 }) => {
     setCurrentStep((pv) => pv + 1)
   }
 
-  const width = ((currentStep - 1) / (totalSteps - 1)) * 100
+  const currentProgressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100
 
   return (
     <div className="container">
-      <div className="progress-bar">
-        <div className="progress" style={{ width: `${width}%` }}></div>
-
+      <div className="progress-bar" style={{ width }}>
+        <div
+          className="progress"
+          style={{ width: `${currentProgressPercentage}%` }}
+        ></div>
         {Array.from({ length: totalSteps }, (i, index) => {
           const step = index + 1
           const isActive = step === currentStep
+          const status = []
           return (
             <div className={`step ${isActive ? 'active' : ''}`}>
               {index + 1}

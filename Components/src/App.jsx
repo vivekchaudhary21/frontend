@@ -1,3 +1,10 @@
 import * as Components from './components'
 
-export const App = () => <Components.ProgressSteps totalSteps={5} />
+export const App = () => {
+  return (
+    <div>
+      {/* <Components.ProgressSteps totalSteps={5} /> */}
+      <Components.UserSearch />
+    </div>
+  )
+}
