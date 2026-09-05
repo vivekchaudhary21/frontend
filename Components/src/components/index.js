@@ -1,3 +1,7 @@
-export { ColumnChooser } from './ColumnChooser/ColumnChooser'
-export { ProgressSteps } from './ProgressSteps/ProgressSteps'
-export { UserSearch } from './UserSearch/UserSearch'
+import { Counter } from './Counter/Counter'
+
+// Connect a route slug to its finished or in-progress component.
+// Add each new component here when its implementation is ready to preview.
+export const componentRegistry = {
+  counter: Counter,
+}

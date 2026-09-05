@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Data</title>
+  </head>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    row-gap: 5px;
+    }
+
+    #myForm {
+      display: flex;
+      flex-direction: column;
+      row-gap: 5px;
+    }
+
+  </style>
+  <body>
+    <form action="#" id="myForm">
+      <input type="text" name="first" />
+      <input type="text" name="last" />
+      <input type="text" name="address" />
+      <input type="text" name="postal" />
+      <input type="text" name="email" />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <button id="anotherButton">Another</button>
+
+    <script src="main.js"></script>
+  </body>
+</html>
