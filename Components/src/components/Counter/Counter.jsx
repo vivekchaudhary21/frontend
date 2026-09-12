@@ -1,39 +1,34 @@
 import React, { useState } from 'react'
 
+
+const clamped = (value, min, max) => Math.min(max, Math.max(min, value))
+
 const Counter = (props) => {
   const {
     initialValue = 0,
-    step = 6,
-    min = 0,
-    max = 20,
-    onChange = () => {},
+    step = 1,
+    min = -Infinity,
+    max = Infinity,
+    onChange = () => { },
   } = props
 
   // state
-  const [count, setCount] = useState(initialValue)
+  const [count, setCount] = useState(clamped(initialValue, min, max))
   const [config, setConfig] = useState({ min, max, step })
 
-  console.log(config)
 
   const onChangeHandler = (value, action) => {
     if (action == 'inc') {
       setCount((pvValue) => {
-        const newValue = pvValue + value
-        if (newValue <= config.max) {
-          return newValue
-        }
-        return config.max
+        return clamped(pvValue + value, config.min, config.max)
       })
     }
     if (action === 'dec') {
       setCount((pvValue) => {
-        const newValue = pvValue - value
-        if (newValue >= config.min) {
-          return newValue
-        }
-        return config.min
+        return clamped(pvValue - value, config.min, config.max)
       })
     }
+    onChange(value)
   }
 
   const onResetHandler = () => {
