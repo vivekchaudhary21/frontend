@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 const clamped = (value, min, max) => Math.min(max, Math.max(min, value))
@@ -16,6 +16,10 @@ const Counter = (props) => {
   const [count, setCount] = useState(clamped(initialValue, min, max))
   const [config, setConfig] = useState({ min, max, step })
 
+
+  useEffect(() => {
+    onChange(count)
+  }, [count, onChange])
 
   const onChangeHandler = (value, action) => {
     if (action == 'inc') {
