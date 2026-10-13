@@ -1,3 +1,4 @@
+import { isValidElement } from 'react'
 import { Link } from 'react-router-dom'
 
 import { componentRegistry } from '../components'
@@ -11,7 +12,7 @@ export const ComponentPage = ({ component, level }) => {
   )
   const previous = allComponents[currentIndex - 1]
   const next = allComponents[currentIndex + 1]
-  const ActiveComponent = componentRegistry[component.slug]
+  const preview = componentRegistry[component.slug]
 
   return (
     <div className="page component-page">
@@ -31,12 +32,15 @@ export const ComponentPage = ({ component, level }) => {
       </header>
 
       <section className="workbench" aria-label={`${component.name} workspace`}>
-        {ActiveComponent ? (
+        {preview ? (
           <div
             className="component-preview"
             aria-label={`${component.name} preview`}
           >
-            <ActiveComponent />
+            {isValidElement(preview) ? preview : (() => {
+              const Component = preview
+              return <Component />
+            })()}
           </div>
         ) : (
           <div className="empty-preview" aria-label="Empty component preview">

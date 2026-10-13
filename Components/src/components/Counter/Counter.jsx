@@ -41,7 +41,6 @@ const Counter = (props) => {
 
   const onConfigChangeHandler = (e) => {
     const { value, name } = e.target
-
     setConfig((pv) => ({
       ...pv,
       [name]: Number(value),
